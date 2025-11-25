@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFF',
     marginTop: 4,
-    opacity: 0.9,
+    opacity: 0.95,
   },
   statusContainer: {
     flexDirection: 'row',
