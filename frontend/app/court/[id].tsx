@@ -409,6 +409,29 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#FF9800',
   },
+  infoCard: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    backgroundColor: 'rgba(107, 79, 255, 0.1)',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 16,
+    gap: 12,
+  },
+  infoCardContent: {
+    flex: 1,
+  },
+  infoCardTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#6B4FFF',
+    marginBottom: 4,
+  },
+  infoCardText: {
+    fontSize: 14,
+    color: '#6B4FFF',
+    lineHeight: 20,
+  },
   actionButtons: {
     flexDirection: 'row',
     gap: 12,
