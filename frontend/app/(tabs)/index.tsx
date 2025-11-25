@@ -252,7 +252,7 @@ export default function MapScreen() {
             </View>
           }
         />
-      ) : (
+      ) : !IS_WEB && MapView ? (
         <View style={styles.mapContainer}>
           <MapView
             ref={mapRef}
@@ -269,6 +269,12 @@ export default function MapScreen() {
           >
             {filteredCourts.map(court => renderMapMarker(court))}
           </MapView>
+        </View>
+      ) : (
+        <View style={styles.emptyContainer}>
+          <Ionicons name="map-outline" size={64} color="#555" />
+          <Text style={styles.emptyText}>Map view is only available on mobile</Text>
+          <Text style={styles.emptySubtext}>Please use the Expo Go app to view the map</Text>
         </View>
       )}
 
