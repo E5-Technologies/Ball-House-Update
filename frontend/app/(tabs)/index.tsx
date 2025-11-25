@@ -244,7 +244,7 @@ export default function CourtsScreen() {
             description={`${court.currentPlayers} players`}
           >
             <View style={styles.markerContainer}>
-              <View style={styles.playerBadge}>
+              <View style={styles.mapPlayerBadge}>
                 <Text style={styles.playerBadgeText}>{court.currentPlayers}</Text>
               </View>
             </View>
