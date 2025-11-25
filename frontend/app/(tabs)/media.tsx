@@ -655,4 +655,25 @@ const styles = StyleSheet.create({
     color: '#888',
     fontWeight: '600',
   },
+  nativeVideoPlaceholder: {
+    height: 250,
+    backgroundColor: '#1A1A1A',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+  },
+  watchOnYouTubeButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    backgroundColor: '#333',
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+  },
+  watchOnYouTubeText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#FFF',
+  },
 });
