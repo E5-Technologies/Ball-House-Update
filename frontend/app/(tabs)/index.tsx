@@ -475,6 +475,11 @@ const styles = StyleSheet.create({
     color: '#555',
     marginTop: 16,
   },
+  emptySubtext: {
+    fontSize: 14,
+    color: '#888',
+    marginTop: 8,
+  },
   mapContainer: {
     flex: 1,
   },
