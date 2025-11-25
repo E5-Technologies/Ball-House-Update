@@ -130,47 +130,66 @@ export default function CourtsScreen() {
 
     return (
       <TouchableOpacity
-        style={[styles.courtCard, { borderLeftColor: playerColor, borderLeftWidth: 4 }]}
+        style={styles.courtCard}
         onPress={() => router.push(`/court/${item.id}`)}
+        activeOpacity={0.7}
       >
-        {/* Heat Map Indicator Bar */}
-        <View style={[styles.heatBar, { backgroundColor: playerColor }]} />
-        
-        <View style={styles.courtHeader}>
-          <View style={styles.courtInfo}>
-            <Text style={styles.courtName}>{item.name}</Text>
-            <View style={styles.ratingRow}>
-              <Ionicons name="star" size={14} color="#FFD700" />
-              <Text style={styles.ratingText}>{item.rating.toFixed(1)}</Text>
-            </View>
-            <Text style={styles.courtAddress}>{item.address}</Text>
+        {/* Court Icon Circle */}
+        <View style={styles.courtIconContainer}>
+          <View style={styles.iconCircle}>
+            <Ionicons name="basketball-outline" size={32} color={Colors.primary} />
           </View>
-          {distance && (
-            <View style={styles.distanceContainer}>
-              <Ionicons name="location" size={18} color={Colors.primary} />
-              <Text style={styles.distanceText}>{distance}</Text>
-              <Text style={styles.distanceLabel}>mi</Text>
-            </View>
-          )}
-        </View>
-
-        <View style={styles.divider} />
-
-        <View style={styles.courtFooter}>
-          <View style={styles.detailItem}>
-            <Ionicons name="time-outline" size={16} color="#888" />
-            <Text style={styles.detailText}>{item.hours}</Text>
-          </View>
-
-          {/* Prominent Heat Map Badge */}
-          <View style={[styles.heatMapBadge, { backgroundColor: playerColor }]}>
-            <Ionicons name="flame" size={20} color="#FFF" />
-            <View style={styles.heatMapInfo}>
-              <Text style={styles.heatMapCount}>{item.currentPlayers}</Text>
-              <Text style={styles.heatMapLabel}>{playerStatus}</Text>
-            </View>
+          
+          {/* Player Count Badge */}
+          <View style={[styles.playerBadge, { backgroundColor: playerColor }]}>
+            <Text style={styles.playerBadgeText}>{item.currentPlayers}</Text>
           </View>
         </View>
+
+        {/* Court Details */}
+        <View style={styles.courtDetails}>
+          <Text style={styles.courtName} numberOfLines={1}>{item.name}</Text>
+          
+          {/* Rating Row */}
+          <View style={styles.ratingRow}>
+            {[1, 2, 3, 4, 5].map((star) => (
+              <Ionicons
+                key={star}
+                name={star <= item.rating ? 'star' : 'star-outline'}
+                size={12}
+                color="#FFD700"
+              />
+            ))}
+            <Text style={styles.ratingText}>({item.rating.toFixed(1)})</Text>
+          </View>
+
+          {/* Address */}
+          <View style={styles.infoRow}>
+            <Ionicons name="location-outline" size={14} color="#666" />
+            <Text style={styles.infoText} numberOfLines={1}>{item.address}</Text>
+          </View>
+
+          {/* Hours */}
+          <View style={styles.infoRow}>
+            <Ionicons name="time-outline" size={14} color="#666" />
+            <Text style={styles.infoText}>{item.hours}</Text>
+          </View>
+
+          {/* Player Status and Distance */}
+          <View style={styles.bottomRow}>
+            <View style={[styles.statusPill, { backgroundColor: `${playerColor}20` }]}>
+              <View style={[styles.statusDot, { backgroundColor: playerColor }]} />
+              <Text style={[styles.statusText, { color: playerColor }]}>{playerStatus}</Text>
+            </View>
+            
+            {distance && (
+              <Text style={styles.distanceText}>{distance} mi away</Text>
+            )}
+          </View>
+        </View>
+
+        {/* Chevron */}
+        <Ionicons name="chevron-forward" size={20} color="#CCC" />
       </TouchableOpacity>
     );
   };
