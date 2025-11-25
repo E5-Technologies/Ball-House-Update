@@ -260,6 +260,16 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     borderWidth: 1,
     borderColor: '#333',
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  heatBar: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    width: 4,
+    opacity: 0.8,
   },
   courtHeader: {
     flexDirection: 'row',
