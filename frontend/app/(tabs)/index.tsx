@@ -121,9 +121,12 @@ export default function CourtsScreen() {
 
     return (
       <TouchableOpacity
-        style={styles.courtCard}
+        style={[styles.courtCard, { borderLeftColor: playerColor, borderLeftWidth: 4 }]}
         onPress={() => router.push(`/court/${item.id}`)}
       >
+        {/* Heat Map Indicator Bar */}
+        <View style={[styles.heatBar, { backgroundColor: playerColor }]} />
+        
         <View style={styles.courtHeader}>
           <View style={styles.courtInfo}>
             <Text style={styles.courtName}>{item.name}</Text>
@@ -150,14 +153,13 @@ export default function CourtsScreen() {
             <Text style={styles.detailText}>{item.hours}</Text>
           </View>
 
-          <View style={[styles.statusBadge, { backgroundColor: playerColor }]}>
-            <View style={styles.statusDot} />
-            <Text style={styles.statusText}>{playerStatus}</Text>
-          </View>
-
-          <View style={[styles.playerBadge, { backgroundColor: playerColor }]}>
-            <Ionicons name="people" size={16} color="#FFF" />
-            <Text style={styles.playerCount}>{item.currentPlayers}</Text>
+          {/* Prominent Heat Map Badge */}
+          <View style={[styles.heatMapBadge, { backgroundColor: playerColor }]}>
+            <Ionicons name="flame" size={20} color="#FFF" />
+            <View style={styles.heatMapInfo}>
+              <Text style={styles.heatMapCount}>{item.currentPlayers}</Text>
+              <Text style={styles.heatMapLabel}>{playerStatus}</Text>
+            </View>
           </View>
         </View>
       </TouchableOpacity>
