@@ -199,15 +199,6 @@ export default function CourtDetailsScreen() {
               Typically {court.averagePlayers} players at this court
             </Text>
           </View>
-
-          {!user?.isPublic && (
-            <View style={styles.privacyNotice}>
-              <Ionicons name="eye-off" size={20} color="#FF9800" />
-              <Text style={styles.privacyText}>
-                You're in private mode. You won't be counted when you check in.
-              </Text>
-            </View>
-          )}
         </View>
 
         {/* Auto Check-in Info */}
