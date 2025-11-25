@@ -152,28 +152,6 @@ export default function MapScreen() {
     );
   };
 
-  const renderMapMarker = (court: Court) => {
-    const playerColor = getPlayerColor(court.currentPlayers);
-
-    return (
-      <Marker
-        key={court.id}
-        coordinate={{
-          latitude: court.latitude,
-          longitude: court.longitude,
-        }}
-        onPress={() => handleMarkerPress(court)}
-      >
-        <View style={styles.markerContainer}>
-          <View style={[styles.markerBubble, { backgroundColor: playerColor }]}>
-            <Text style={styles.markerText}>{court.currentPlayers}</Text>
-          </View>
-          <View style={styles.markerArrow} />
-        </View>
-      </Marker>
-    );
-  };
-
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
