@@ -382,6 +382,22 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#FFF',
   },
+  averageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(74, 144, 226, 0.1)',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginTop: 16,
+    gap: 8,
+  },
+  averageText: {
+    fontSize: 14,
+    color: '#4A90E2',
+    fontWeight: '500',
+  },
   privacyNotice: {
     flexDirection: 'row',
     alignItems: 'center',
