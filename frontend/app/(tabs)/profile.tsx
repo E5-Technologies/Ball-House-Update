@@ -253,6 +253,54 @@ export default function ProfileScreen() {
       </TouchableOpacity>
 
       <Text style={styles.version}>Version 1.0.0</Text>
+
+      {/* Avatar Selection Modal */}
+      <Modal
+        visible={showAvatarModal}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setShowAvatarModal(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Choose Your Avatar</Text>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setShowAvatarModal(false)}
+              >
+                <Ionicons name="close" size={28} color="#FFF" />
+              </TouchableOpacity>
+            </View>
+
+            <Text style={styles.modalSubtitle}>
+              Select a pixelated character as your profile picture
+            </Text>
+
+            <FlatList
+              data={avatarOptions}
+              keyExtractor={(item) => item.seed}
+              numColumns={4}
+              contentContainerStyle={styles.avatarGrid}
+              renderItem={({ item }) => {
+                const avatarUrl = generateAvatarUrl(item.seed, item.backgroundColor);
+                return (
+                  <TouchableOpacity
+                    style={styles.avatarOption}
+                    onPress={() => handleSelectAvatar(avatarUrl)}
+                    disabled={uploading}
+                  >
+                    <Image
+                      source={{ uri: avatarUrl }}
+                      style={styles.avatarOptionImage}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
