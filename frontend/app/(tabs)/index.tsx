@@ -271,11 +271,103 @@ export default function MapScreen() {
           </MapView>
         </View>
       ) : (
-        <View style={styles.emptyContainer}>
-          <Ionicons name="map-outline" size={64} color="#555" />
-          <Text style={styles.emptyText}>Map view is only available on mobile</Text>
-          <Text style={styles.emptySubtext}>Please use the Expo Go app to view the map</Text>
-        </View>
+        <ScrollView contentContainerStyle={styles.mapPreviewContainer}>
+          <View style={styles.mapPreviewHeader}>
+            <Ionicons name="map" size={80} color="#FF6B35" />
+            <Text style={styles.mapPreviewTitle}>Interactive Map View</Text>
+            <Text style={styles.mapPreviewSubtitle}>Available on Mobile Only</Text>
+          </View>
+
+          <View style={styles.featureGrid}>
+            <View style={styles.featureCard}>
+              <View style={[styles.featureIcon, { backgroundColor: '#4CAF50' }]}>
+                <Ionicons name="location" size={32} color="#FFF" />
+              </View>
+              <Text style={styles.featureTitle}>Live Heat Map</Text>
+              <Text style={styles.featureDescription}>
+                See real-time player counts with color-coded markers
+              </Text>
+            </View>
+
+            <View style={styles.featureCard}>
+              <View style={[styles.featureIcon, { backgroundColor: '#4A90E2' }]}>
+                <Ionicons name="navigate" size={32} color="#FFF" />
+              </View>
+              <Text style={styles.featureTitle}>Your Location</Text>
+              <Text style={styles.featureDescription}>
+                Find courts near you with distance calculations
+              </Text>
+            </View>
+
+            <View style={styles.featureCard}>
+              <View style={[styles.featureIcon, { backgroundColor: '#FF9800' }]}>
+                <Ionicons name="finger-print" size={32} color="#FFF" />
+              </View>
+              <Text style={styles.featureTitle}>Tap to Explore</Text>
+              <Text style={styles.featureDescription}>
+                Tap markers for instant court details and directions
+              </Text>
+            </View>
+
+            <View style={styles.featureCard}>
+              <View style={[styles.featureIcon, { backgroundColor: '#9C27B0' }]}>
+                <Ionicons name="layers" size={32} color="#FFF" />
+              </View>
+              <Text style={styles.featureTitle}>Toggle Views</Text>
+              <Text style={styles.featureDescription}>
+                Switch between map and list views instantly
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.instructionsCard}>
+            <Ionicons name="phone-portrait" size={48} color="#FF6B35" />
+            <Text style={styles.instructionsTitle}>View on Mobile</Text>
+            <Text style={styles.instructionsText}>
+              To experience the interactive map with heat visualization:
+            </Text>
+            
+            <View style={styles.stepsList}>
+              <View style={styles.stepItem}>
+                <View style={styles.stepNumber}>
+                  <Text style={styles.stepNumberText}>1</Text>
+                </View>
+                <Text style={styles.stepText}>
+                  Download <Text style={styles.boldText}>Expo Go</Text> app from App Store or Google Play
+                </Text>
+              </View>
+
+              <View style={styles.stepItem}>
+                <View style={styles.stepNumber}>
+                  <Text style={styles.stepNumberText}>2</Text>
+                </View>
+                <Text style={styles.stepText}>
+                  Scan the QR code in the development console
+                </Text>
+              </View>
+
+              <View style={styles.stepItem}>
+                <View style={styles.stepNumber}>
+                  <Text style={styles.stepNumberText}>3</Text>
+                </View>
+                <Text style={styles.stepText}>
+                  Experience the full interactive map with your location!
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.mapPreviewBadge}>
+              <Ionicons name="basketball" size={24} color="#FF6B35" />
+              <Text style={styles.mapPreviewBadgeText}>
+                {filteredCourts.length} courts in Houston ready to explore
+              </Text>
+            </View>
+          </View>
+
+          <Text style={styles.webNote}>
+            For now, browse courts using the list view above
+          </Text>
+        </ScrollView>
       )}
 
       {/* Court Details Modal */}
