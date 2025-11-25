@@ -23,6 +23,19 @@ export default function ProfileScreen() {
   const { user, token, logout, updateUser } = useAuth();
   const router = useRouter();
   const [uploading, setUploading] = useState(false);
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
+  
+  // Generate pixel art avatar URLs using DiceBear API
+  const avatarSeeds = [
+    'Felix', 'Aneka', 'Brooklynn', 'Callie', 'Chance', 'Chester', 
+    'Cleo', 'Coco', 'Cuddles', 'Daisy', 'Felix2', 'Fluffy',
+    'Garfield', 'George', 'Ginger', 'Gizmo', 'Gracie', 'Harley',
+    'Jasper', 'Kiki', 'Kitty', 'Leo', 'Lily', 'Loki'
+  ];
+  
+  const generateAvatarUrl = (seed: string) => {
+    return `https://api.dicebear.com/7.x/pixel-art/png?seed=${seed}&size=200&backgroundColor=5B7C99`;
+  };
 
   const getInitials = (username: string) => {
     return username.substring(0, 2).toUpperCase();
