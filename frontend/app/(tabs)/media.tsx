@@ -577,4 +577,65 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#FFF',
   },
+  playerModalContainer: {
+    flex: 1,
+    backgroundColor: '#000',
+  },
+  playerHeader: {
+    paddingTop: 48,
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    backgroundColor: '#000',
+  },
+  closeButton: {
+    width: 44,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 22,
+    backgroundColor: '#1A1A1A',
+  },
+  playerContent: {
+    flex: 1,
+  },
+  playerInfo: {
+    padding: 20,
+  },
+  playerTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#FFF',
+    marginBottom: 12,
+    lineHeight: 28,
+  },
+  playerMeta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 24,
+  },
+  playerChannel: {
+    fontSize: 16,
+    color: '#888',
+  },
+  playerActions: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#333',
+  },
+  playerActionButton: {
+    alignItems: 'center',
+    gap: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+  },
+  playerActionText: {
+    fontSize: 16,
+    color: '#888',
+    fontWeight: '600',
+  },
 });
