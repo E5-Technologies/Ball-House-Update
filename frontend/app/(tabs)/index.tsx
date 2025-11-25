@@ -110,16 +110,6 @@ export default function MapScreen() {
     court.address.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleMarkerPress = (court: Court) => {
-    setSelectedCourt(court);
-    setShowCourtModal(true);
-  };
-
-  const handleCourtPress = (court: Court) => {
-    router.push(`/court/${court.id}`);
-    setShowCourtModal(false);
-  };
-
   const renderCourtItem = ({ item }: { item: Court }) => {
     const distance = getDistance(item);
     const playerColor = getPlayerColor(item.currentPlayers);
