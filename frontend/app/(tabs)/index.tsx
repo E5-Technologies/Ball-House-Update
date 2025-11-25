@@ -223,16 +223,18 @@ export default function MapScreen() {
             onChangeText={setSearchQuery}
           />
         </View>
-        <TouchableOpacity 
-          style={styles.toggleButton}
-          onPress={() => setViewMode(viewMode === 'list' ? 'map' : 'list')}
-        >
-          <Ionicons 
-            name={viewMode === 'list' ? 'map' : 'list'} 
-            size={24} 
-            color="#FFF" 
-          />
-        </TouchableOpacity>
+        {!IS_WEB && (
+          <TouchableOpacity 
+            style={styles.toggleButton}
+            onPress={() => setViewMode(viewMode === 'list' ? 'map' : 'list')}
+          >
+            <Ionicons 
+              name={viewMode === 'list' ? 'map' : 'list'} 
+              size={24} 
+              color="#FFF" 
+            />
+          </TouchableOpacity>
+        )}
       </View>
 
       {viewMode === 'list' ? (
