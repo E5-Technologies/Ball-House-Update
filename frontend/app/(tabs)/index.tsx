@@ -629,9 +629,9 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   playerBadgeText: {
-    color: '#FFF',
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: 'bold',
+    color: '#FFF',
   },
   bottomCard: {
     position: 'absolute',
