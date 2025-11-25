@@ -228,20 +228,6 @@ export default function CourtDetailsScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-
-      <View style={styles.footer}>
-        {checkedIn ? (
-          <TouchableOpacity style={styles.checkOutButton} onPress={handleCheckOut}>
-            <Ionicons name="checkmark-circle" size={24} color="#FFF" />
-            <Text style={styles.checkOutButtonText}>Check Out</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity style={styles.checkInButton} onPress={handleCheckIn}>
-            <Ionicons name="log-in" size={24} color="#FFF" />
-            <Text style={styles.checkInButtonText}>Check In</Text>
-          </TouchableOpacity>
-        )}
-      </View>
     </View>
   );
 }
