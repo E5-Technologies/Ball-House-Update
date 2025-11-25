@@ -490,10 +490,8 @@ const styles = StyleSheet.create({
     minWidth: 60,
   },
   distanceText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#4A90E2',
-    marginTop: 4,
+    fontSize: 12,
+    color: '#999',
   },
   distanceLabel: {
     fontSize: 12,
