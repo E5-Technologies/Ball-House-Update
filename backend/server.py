@@ -151,6 +151,7 @@ async def initialize_courts():
     count = await db.courts.count_documents({})
     if count == 0:
         houston_courts = [
+            # Public Parks
             {
                 "name": "Discovery Green Court",
                 "address": "1500 McKinney St, Houston, TX 77010",
@@ -254,10 +255,155 @@ async def initialize_courts():
                 "averagePlayers": 8,
                 "publicUsersAtCourt": [],
                 "image": None
+            },
+            # LA Fitness Locations
+            {
+                "name": "LA Fitness - Galleria",
+                "address": "5155 West Alabama St, Houston, TX 77056",
+                "latitude": 29.7355,
+                "longitude": -95.4620,
+                "hours": "5:00 am - 11:00 pm",
+                "phoneNumber": "713-621-1100",
+                "rating": 4.6,
+                "currentPlayers": 0,
+                "averagePlayers": 24,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            {
+                "name": "LA Fitness - Midtown",
+                "address": "3232 Roseland St, Houston, TX 77004",
+                "latitude": 29.7311,
+                "longitude": -95.3686,
+                "hours": "5:00 am - 11:00 pm",
+                "phoneNumber": "713-520-1100",
+                "rating": 4.5,
+                "currentPlayers": 0,
+                "averagePlayers": 26,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            {
+                "name": "LA Fitness - Memorial City",
+                "address": "9603 Katy Fwy, Houston, TX 77024",
+                "latitude": 29.7821,
+                "longitude": -95.5381,
+                "hours": "5:00 am - 11:00 pm",
+                "phoneNumber": "713-461-1100",
+                "rating": 4.7,
+                "currentPlayers": 0,
+                "averagePlayers": 28,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            {
+                "name": "LA Fitness - Westheimer",
+                "address": "12655 Westheimer Rd, Houston, TX 77077",
+                "latitude": 29.7357,
+                "longitude": -95.6278,
+                "hours": "5:00 am - 11:00 pm",
+                "phoneNumber": "281-496-1100",
+                "rating": 4.5,
+                "currentPlayers": 0,
+                "averagePlayers": 22,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            {
+                "name": "LA Fitness - Sugar Land",
+                "address": "16730 Creek Bend Dr, Sugar Land, TX 77478",
+                "latitude": 29.5959,
+                "longitude": -95.6354,
+                "hours": "5:00 am - 11:00 pm",
+                "phoneNumber": "281-277-1100",
+                "rating": 4.6,
+                "currentPlayers": 0,
+                "averagePlayers": 20,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            # Premium Gyms (Alphaland-style)
+            {
+                "name": "Life Time Athletic - Houston",
+                "address": "5425 West Loop S, Bellaire, TX 77401",
+                "latitude": 29.7048,
+                "longitude": -95.4893,
+                "hours": "4:00 am - 12:00 am",
+                "phoneNumber": "713-667-9355",
+                "rating": 4.8,
+                "currentPlayers": 0,
+                "averagePlayers": 30,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            {
+                "name": "Houstonian Club",
+                "address": "111 North Post Oak Ln, Houston, TX 77024",
+                "latitude": 29.7672,
+                "longitude": -95.4618,
+                "hours": "5:00 am - 10:00 pm",
+                "phoneNumber": "713-680-2626",
+                "rating": 4.9,
+                "currentPlayers": 0,
+                "averagePlayers": 16,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            {
+                "name": "Fitness Connection - Westheimer",
+                "address": "13359 Westheimer Rd, Houston, TX 77077",
+                "latitude": 29.7358,
+                "longitude": -95.6489,
+                "hours": "24 hours",
+                "phoneNumber": "281-496-2000",
+                "rating": 4.4,
+                "currentPlayers": 0,
+                "averagePlayers": 25,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            {
+                "name": "Equinox - River Oaks",
+                "address": "1900 West Gray St, Houston, TX 77019",
+                "latitude": 29.7498,
+                "longitude": -95.3987,
+                "hours": "5:00 am - 10:00 pm",
+                "phoneNumber": "713-807-8200",
+                "rating": 4.7,
+                "currentPlayers": 0,
+                "averagePlayers": 18,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            {
+                "name": "24 Hour Fitness - Greenway Plaza",
+                "address": "3663 Richmond Ave, Houston, TX 77046",
+                "latitude": 29.7345,
+                "longitude": -95.4418,
+                "hours": "24 hours",
+                "phoneNumber": "713-621-2424",
+                "rating": 4.3,
+                "currentPlayers": 0,
+                "averagePlayers": 21,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            {
+                "name": "Gold's Gym - Galleria",
+                "address": "5005 Woodway Dr, Houston, TX 77056",
+                "latitude": 29.7496,
+                "longitude": -95.4628,
+                "hours": "5:00 am - 11:00 pm",
+                "phoneNumber": "713-961-0020",
+                "rating": 4.5,
+                "currentPlayers": 0,
+                "averagePlayers": 19,
+                "publicUsersAtCourt": [],
+                "image": None
             }
         ]
         await db.courts.insert_many(houston_courts)
-        logging.info("Initialized Houston basketball courts")
+        logging.info("Initialized Houston basketball courts with gym locations")
 
 # Authentication Routes
 @api_router.post("/auth/register")
