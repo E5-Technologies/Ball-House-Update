@@ -46,6 +46,12 @@
         {
           "RNMapboxMapsDownloadToken": "pk.eyJ1IjoiZG9ueWV3dWUiLCJhIjoiY21ocmFzOGJ5MHVjMTJscHZoZHluemk2bSJ9.QmlFz7e8-_GhVHz2zveGFQ"
         }
+      ],
+      [
+        "react-native-maps",
+        {
+          "useGoogleMaps": false
+        }
       ]
     ],
     "experiments": {
