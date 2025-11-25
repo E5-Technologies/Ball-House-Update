@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
   courtName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFF',
+    color: '#000',
     marginBottom: 4,
   },
   ratingRow: {
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
   },
   courtAddress: {
     fontSize: 13,
-    color: '#888',
+    color: '#666',
     lineHeight: 18,
   },
   distanceContainer: {
