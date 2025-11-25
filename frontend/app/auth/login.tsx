@@ -44,28 +44,33 @@ export default function Login() {
       style={styles.container}
     >
       <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Logo Header */}
         <View style={styles.header}>
-          <Ionicons name="basketball" size={80} color="#FF6B35" />
-          <Text style={styles.title}>Court Finder</Text>
+          <View style={styles.logoContainer}>
+            <Ionicons name="location" size={60} color="#4B00FF" style={styles.icon} />
+            <Text style={styles.brandText}>BH</Text>
+          </View>
+          <Text style={styles.networkText}>NETWORK</Text>
           <Text style={styles.subtitle}>Find your game</Text>
         </View>
 
+        {/* Login Form */}
         <View style={styles.form}>
           <View style={styles.inputContainer}>
-            <Ionicons name="mail-outline" size={20} color="#666" style={styles.icon} />
+            <Ionicons name="mail-outline" size={20} color="#666" style={styles.inputIcon} />
             <TextInput
               style={styles.input}
               placeholder="Email"
               placeholderTextColor="#666"
               value={email}
               onChangeText={setEmail}
-              keyboardType="email-address"
               autoCapitalize="none"
+              keyboardType="email-address"
             />
           </View>
 
           <View style={styles.inputContainer}>
-            <Ionicons name="lock-closed-outline" size={20} color="#666" style={styles.icon} />
+            <Ionicons name="lock-closed-outline" size={20} color="#666" style={styles.inputIcon} />
             <TextInput
               style={styles.input}
               placeholder="Password"
@@ -86,12 +91,12 @@ export default function Login() {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.linkButton}
-            onPress={() => router.push('/auth/register')}
-          >
-            <Text style={styles.linkText}>Don't have an account? Sign up</Text>
-          </TouchableOpacity>
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>Don't have an account? </Text>
+            <TouchableOpacity onPress={() => router.push('/auth/register')}>
+              <Text style={styles.linkText}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -101,7 +106,7 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#000000',
   },
   scrollContent: {
     flexGrow: 1,
@@ -112,15 +117,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 48,
   },
-  title: {
-    fontSize: 32,
+  logoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  icon: {
+    marginRight: -8,
+  },
+  brandText: {
+    fontSize: 56,
     fontWeight: 'bold',
-    color: '#FFF',
-    marginTop: 16,
+    color: '#FFFFFF',
+    letterSpacing: 2,
+  },
+  networkText: {
+    fontSize: 18,
+    color: '#FFFFFF',
+    fontWeight: '400',
+    letterSpacing: 3,
+    marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#888',
+    color: '#666',
     marginTop: 8,
   },
   form: {
@@ -136,7 +156,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#333',
   },
-  icon: {
+  inputIcon: {
     marginRight: 12,
   },
   input: {
@@ -146,12 +166,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: '#FF6B35',
+    backgroundColor: '#4B00FF',
     borderRadius: 12,
     height: 56,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 8,
+    shadowColor: '#4B00FF',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
   },
   buttonDisabled: {
     opacity: 0.6,
@@ -161,12 +186,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
   },
-  linkButton: {
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     marginTop: 24,
-    alignItems: 'center',
+  },
+  footerText: {
+    color: '#666',
+    fontSize: 14,
   },
   linkText: {
-    color: '#4A90E2',
-    fontSize: 16,
+    color: '#4B00FF',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });
