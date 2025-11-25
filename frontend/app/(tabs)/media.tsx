@@ -271,11 +271,27 @@ export default function MediaScreen() {
           
           {selectedVideo && (
             <View style={styles.playerContent}>
-              <YoutubePlayer
-                height={250}
-                videoId={selectedVideo.id}
-                play={showPlayerModal}
-              />
+              {Platform.OS === 'web' ? (
+                <iframe
+                  width="100%"
+                  height="250"
+                  src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1`}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{ borderRadius: 8 }}
+                />
+              ) : (
+                <View style={styles.nativeVideoPlaceholder}>
+                  <TouchableOpacity
+                    style={styles.watchOnYouTubeButton}
+                    onPress={() => Linking.openURL(`https://www.youtube.com/watch?v=${selectedVideo.id}`)}
+                  >
+                    <Ionicons name="logo-youtube" size={40} color="#FF0000" />
+                    <Text style={styles.watchOnYouTubeText}>Watch on YouTube</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
               
               <View style={styles.playerInfo}>
                 <Text style={styles.playerTitle}>{selectedVideo.title}</Text>
