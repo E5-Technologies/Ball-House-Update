@@ -9,13 +9,16 @@ import {
   Image,
   TextInput,
   Alert,
-  Linking,
   Modal,
   ScrollView,
+  Dimensions,
 } from 'react-native';
+import YoutubePlayer from 'react-native-youtube-iframe';
 import { useAuth } from '../../contexts/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
+
+const { width } = Dimensions.get('window');
 
 const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
 
