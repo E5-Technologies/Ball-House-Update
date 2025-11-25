@@ -293,17 +293,16 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
   card: {
-    backgroundColor: '#1A1A1A',
+    backgroundColor: '#F8F8F8',
     borderRadius: 12,
     padding: 20,
     marginBottom: 16,
-    borderWidth: 1,
-    borderColor: '#333',
+    borderWidth: 0,
   },
   courtName: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFF',
+    color: '#000',
     marginBottom: 12,
   },
   ratingContainer: {
@@ -314,12 +313,12 @@ const styles = StyleSheet.create({
   ratingText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFF',
+    color: '#000',
     marginLeft: 8,
   },
   ratingCount: {
     fontSize: 16,
-    color: '#888',
+    color: '#666',
     marginLeft: 4,
   },
   infoSection: {
@@ -333,7 +332,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 12,
@@ -341,12 +340,12 @@ const styles = StyleSheet.create({
   infoText: {
     flex: 1,
     fontSize: 16,
-    color: '#FFF',
+    color: '#000',
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#FFF',
+    color: '#000',
     marginBottom: 20,
   },
   activityBadge: {
