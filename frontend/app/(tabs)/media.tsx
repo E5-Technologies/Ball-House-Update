@@ -433,23 +433,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-  },
-  banner: {
-    marginHorizontal: Spacing.md,
-    marginTop: Spacing.sm,
-    marginBottom: Spacing.lg,
-    backgroundColor: '#2A2A2A',
-    borderRadius: 25,
-    paddingVertical: Spacing.lg,
-    paddingHorizontal: Spacing.lg,
-    alignItems: 'center',
-  },
-  bannerText: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    textAlign: 'center',
-    lineHeight: 24,
+    paddingTop: Spacing.md,
   },
   section: {
     marginBottom: Spacing.xl,
@@ -470,9 +454,6 @@ const styles = StyleSheet.create({
     width: cardWidth,
     marginBottom: Spacing.md,
     paddingHorizontal: Spacing.sm,
-  },
-  videoCardRight: {
-    marginTop: 20,
   },
   videoCard: {
     width: '100%',
