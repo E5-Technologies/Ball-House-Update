@@ -334,6 +334,7 @@ async def get_me(authorization: Optional[str] = Header(None)):
         "username": user["username"],
         "email": user["email"],
         "profilePic": user.get("profilePic"),
+        "avatarUrl": user.get("avatarUrl"),
         "isPublic": user.get("isPublic", True),
         "currentCourtId": user.get("currentCourtId")
     }
