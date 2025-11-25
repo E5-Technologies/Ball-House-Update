@@ -184,7 +184,138 @@ export default function CourtsScreen() {
     );
   }
 
-  return (
+  // Prepare heatmap data from courts
+  const heatmapPoints = courts.map(court => ({
+    latitude: court.latitude,
+    longitude: court.longitude,
+    weight: court.currentPlayers || 1,
+  }));
+
+  // Map view for mobile
+  const renderMapView = () => (
+    <View style={styles.container}>
+      <View style={styles.searchContainer}>
+        <Ionicons name="search" size={20} color="#666" style={styles.searchIcon} />
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search"
+          placeholderTextColor="#999"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+        <TouchableOpacity style={styles.filterButton}>
+          <Ionicons name="options-outline" size={24} color="#000" />
+        </TouchableOpacity>
+      </View>
+
+      <MapView
+        style={styles.map}
+        provider={PROVIDER_GOOGLE}
+        initialRegion={{
+          latitude: 29.7604,
+          longitude: -95.3698,
+          latitudeDelta: 0.3,
+          longitudeDelta: 0.3,
+        }}
+        showsUserLocation
+        showsMyLocationButton
+      >
+        {/* Heatmap Overlay */}
+        <Heatmap
+          points={heatmapPoints}
+          opacity={0.7}
+          radius={50}
+          gradient={{
+            colors: ['#4A90E2', '#50C878', '#FFD700', '#FF8C00', '#FF0000'],
+            startPoints: [0.1, 0.25, 0.5, 0.75, 1.0],
+            colorMapSize: 256
+          }}
+        />
+
+        {/* Court Markers */}
+        {filteredCourts.map((court) => (
+          <Marker
+            key={court.id}
+            coordinate={{
+              latitude: court.latitude,
+              longitude: court.longitude,
+            }}
+            onPress={() => setSelectedCourt(court)}
+          >
+            <View style={styles.markerContainer}>
+              <View style={styles.playerBadge}>
+                <Text style={styles.playerBadgeText}>{court.currentPlayers}</Text>
+              </View>
+            </View>
+          </Marker>
+        ))}
+      </MapView>
+
+      {/* Bottom Detail Card */}
+      {selectedCourt && (
+        <View style={styles.bottomCard}>
+          <View style={styles.cardHeader}>
+            <View style={styles.cardLeft}>
+              <View style={styles.courtImageContainer}>
+                <Ionicons name="basketball" size={32} color={Colors.primary} />
+              </View>
+              <View style={styles.cardInfo}>
+                <Text style={styles.cardTitle}>{selectedCourt.name}</Text>
+                <View style={styles.ratingRow}>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Ionicons
+                      key={star}
+                      name={star <= selectedCourt.rating ? 'star' : 'star-outline'}
+                      size={14}
+                      color="#FFD700"
+                    />
+                  ))}
+                </View>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.closeCardButton}
+              onPress={() => setSelectedCourt(null)}
+            >
+              <Ionicons name="close" size={24} color="#666" />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.cardBody}>
+            <View style={styles.cardRow}>
+              <Ionicons name="location-outline" size={16} color="#666" />
+              <Text style={styles.cardText}>{selectedCourt.address}</Text>
+            </View>
+            <View style={styles.cardRow}>
+              <Ionicons name="call-outline" size={16} color="#666" />
+              <Text style={styles.cardText}>{selectedCourt.phoneNumber}</Text>
+            </View>
+            <View style={styles.cardRow}>
+              <Ionicons name="time-outline" size={16} color="#666" />
+              <Text style={styles.cardText}>{selectedCourt.hours}</Text>
+            </View>
+          </View>
+
+          <View style={styles.cardFooter}>
+            <View style={styles.playerCountCard}>
+              <Text style={styles.playerCountNumber}>{selectedCourt.currentPlayers}</Text>
+              <Text style={styles.playerCountLabel}># of players</Text>
+            </View>
+            <TouchableOpacity
+              style={styles.viewDetailsButton}
+              onPress={() => router.push(`/court/${selectedCourt.id}`)}
+            >
+              <Text style={styles.viewDetailsText}>View Details</Text>
+              <Ionicons name="arrow-forward" size={20} color="#FFF" />
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    </View>
+  );
+
+  // List view for web
+  const renderListView = () => (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
         <Ionicons name="search" size={20} color="#888" style={styles.searchIcon} />
@@ -221,6 +352,8 @@ export default function CourtsScreen() {
       />
     </View>
   );
+
+  return showMap ? renderMapView() : renderListView();
 }
 
 const styles = StyleSheet.create({
