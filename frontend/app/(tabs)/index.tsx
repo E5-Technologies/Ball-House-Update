@@ -39,12 +39,8 @@ export default function MapScreen() {
   const [loading, setLoading] = useState(true);
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [viewMode, setViewMode] = useState<'list' | 'map'>(IS_WEB ? 'list' : 'map');
-  const [selectedCourt, setSelectedCourt] = useState<Court | null>(null);
-  const [showCourtModal, setShowCourtModal] = useState(false);
   const { token, user } = useAuth();
   const router = useRouter();
-  const mapRef = useRef<MapView>(null);
 
   useEffect(() => {
     getLocation();
