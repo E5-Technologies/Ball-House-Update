@@ -216,6 +216,17 @@ export default function CourtDetailsScreen() {
           )}
         </View>
 
+        {/* Auto Check-in Info */}
+        <View style={styles.infoCard}>
+          <Ionicons name="information-circle-outline" size={24} color="#6B4FFF" />
+          <View style={styles.infoCardContent}>
+            <Text style={styles.infoCardTitle}>Automatic Check-in</Text>
+            <Text style={styles.infoCardText}>
+              When your profile is in Public mode and you're near this court, you'll be automatically counted as present.
+            </Text>
+          </View>
+        </View>
+
         <View style={styles.actionButtons}>
           <TouchableOpacity style={styles.actionButton} onPress={openMaps}>
             <Ionicons name="navigate" size={24} color="#4A90E2" />
