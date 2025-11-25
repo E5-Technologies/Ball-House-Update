@@ -439,8 +439,8 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   courtName: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '600',
     color: '#000',
     marginBottom: 4,
   },
