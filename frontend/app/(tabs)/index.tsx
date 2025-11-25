@@ -13,15 +13,27 @@ import {
   Modal,
   ScrollView,
 } from 'react-native';
-import MapView, { Marker, PROVIDER_DEFAULT } from 'react-native-maps';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../../contexts/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import axios from 'axios';
 
+// Conditionally import MapView only for native platforms
+let MapView: any = null;
+let Marker: any = null;
+let PROVIDER_DEFAULT: any = null;
+
+if (Platform.OS !== 'web') {
+  const maps = require('react-native-maps');
+  MapView = maps.default;
+  Marker = maps.Marker;
+  PROVIDER_DEFAULT = maps.PROVIDER_DEFAULT;
+}
+
 const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
 const { width, height } = Dimensions.get('window');
+const IS_WEB = Platform.OS === 'web';
 
 interface Court {
   id: string;
