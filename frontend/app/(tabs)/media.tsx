@@ -98,6 +98,11 @@ export default function MediaScreen() {
     });
   };
 
+  const openVideoPlayer = (video: Video) => {
+    setSelectedVideo(video);
+    setShowPlayerModal(true);
+  };
+
   const openShareModal = (video: Video) => {
     setSelectedVideo(video);
     setShowShareModal(true);
