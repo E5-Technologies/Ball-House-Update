@@ -18,8 +18,10 @@ import {
 import { useAuth } from '../../contexts/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
+import { Colors, BorderRadius, Spacing } from '../../constants/theme';
 
 const { width } = Dimensions.get('window');
+const cardWidth = (width - 48) / 2; // 2 columns with spacing
 
 const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
 
@@ -31,6 +33,7 @@ interface Video {
   channelTitle: string;
   publishedAt: string;
   isLiked?: boolean;
+  likes?: number;
 }
 
 interface User {
@@ -42,7 +45,7 @@ interface User {
 export default function MediaScreen() {
   const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('NBA basketball highlights');
+  const [searchQuery, setSearchQuery] = useState('');
   const [likedVideos, setLikedVideos] = useState<Set<string>>(new Set());
   const [showShareModal, setShowShareModal] = useState(false);
   const [showPlayerModal, setShowPlayerModal] = useState(false);
@@ -58,10 +61,18 @@ export default function MediaScreen() {
   const fetchVideos = async (query?: string) => {
     setLoading(true);
     try {
+      const searchTerm = query || 'NBA basketball highlights';
       const response = await axios.get(`${API_URL}/api/media/youtube`, {
-        params: { query: query || searchQuery },
+        params: { query: searchTerm },
       });
-      setVideos(response.data);
+      
+      // Add random like counts for demo
+      const videosWithLikes = response.data.map((video: Video) => ({
+        ...video,
+        likes: Math.floor(Math.random() * 20) + 1
+      }));
+      
+      setVideos(videosWithLikes);
     } catch (error) {
       console.error('Error fetching videos:', error);
       Alert.alert('Error', 'Failed to load videos');
@@ -83,298 +94,264 @@ export default function MediaScreen() {
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      fetchVideos(searchQuery.trim());
+      fetchVideos(searchQuery);
     }
   };
 
-  const handleLike = (videoId: string) => {
-    setLikedVideos(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(videoId)) {
-        newSet.delete(videoId);
+  const toggleLike = (videoId: string) => {
+    setLikedVideos((prev) => {
+      const newLikes = new Set(prev);
+      if (newLikes.has(videoId)) {
+        newLikes.delete(videoId);
       } else {
-        newSet.add(videoId);
+        newLikes.add(videoId);
       }
-      return newSet;
+      return newLikes;
     });
   };
 
-  const openVideoPlayer = (video: Video) => {
+  const handleShare = async (userId: string) => {
+    if (!selectedVideo) return;
+
+    try {
+      await axios.post(
+        `${API_URL}/api/messages/send`,
+        {
+          receiverId: userId,
+          content: `Check out this video: ${selectedVideo.title} - https://youtube.com/watch?v=${selectedVideo.id}`,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      Alert.alert('Success', 'Video shared successfully!');
+      setShowShareModal(false);
+    } catch (error) {
+      console.error('Error sharing video:', error);
+      Alert.alert('Error', 'Failed to share video');
+    }
+  };
+
+  const openVideo = (video: Video) => {
     setSelectedVideo(video);
     setShowPlayerModal(true);
   };
 
-  const openShareModal = (video: Video) => {
-    setSelectedVideo(video);
-    setShowShareModal(true);
-  };
-
-  const handleSendVideo = async (user: User) => {
-    if (!selectedVideo) return;
-
-    try {
-      const videoUrl = `https://www.youtube.com/watch?v=${selectedVideo.id}`;
-      const message = `Check out this video: ${selectedVideo.title}\n${videoUrl}`;
-
-      await axios.post(
-        `${API_URL}/api/messages/send`,
-        {
-          toUserId: user.id,
-          message: message,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      Alert.alert('Success', `Video sent to ${user.username}!`);
-      setShowShareModal(false);
-    } catch (error) {
-      console.error('Error sending video:', error);
-      Alert.alert('Error', 'Failed to send video');
-    }
-  };
-
-  const openVideo = (videoId: string) => {
-    const url = `https://www.youtube.com/watch?v=${videoId}`;
-    Linking.openURL(url);
-  };
-
-  const getInitials = (username: string) => {
-    return username.substring(0, 2).toUpperCase();
-  };
-
-  const renderVideoItem = ({ item }: { item: Video }) => {
+  const renderVideoCard = ({ item }: { item: Video }) => {
     const isLiked = likedVideos.has(item.id);
+    const displayLikes = isLiked ? (item.likes || 0) + 1 : (item.likes || 0);
 
     return (
-      <View style={styles.videoCard}>
-        <TouchableOpacity onPress={() => openVideoPlayer(item)}>
-          <Image source={{ uri: item.thumbnail }} style={styles.thumbnail} />
-          <View style={styles.playIconContainer}>
-            <Ionicons name="play-circle" size={64} color="rgba(255,107,53,0.9)" />
-          </View>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.videoCard}
+        onPress={() => openVideo(item)}
+        activeOpacity={0.9}
+      >
+        <Image source={{ uri: item.thumbnail }} style={styles.thumbnail} />
         
-        <View style={styles.videoInfo}>
-          <Text style={styles.videoTitle} numberOfLines={2}>
-            {item.title}
-          </Text>
-          <View style={styles.videoMeta}>
-            <Ionicons name="person-circle-outline" size={16} color="#888" />
-            <Text style={styles.channelName} numberOfLines={1}>
-              {item.channelTitle}
-            </Text>
-          </View>
-
-          <View style={styles.videoActions}>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() => handleLike(item.id)}
-            >
-              <Ionicons
-                name={isLiked ? 'heart' : 'heart-outline'}
-                size={24}
-                color={isLiked ? '#FF6B35' : '#888'}
-              />
-              <Text style={[styles.actionText, isLiked && styles.likedText]}>
-                {isLiked ? 'Liked' : 'Like'}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() => openShareModal(item)}
-            >
-              <Ionicons name="share-outline" size={24} color="#888" />
-              <Text style={styles.actionText}>Share</Text>
-            </TouchableOpacity>
-          </View>
+        {/* Play Button Overlay */}
+        <View style={styles.playButtonOverlay}>
+          <Ionicons name="play-circle" size={50} color="white" style={styles.playIcon} />
         </View>
-      </View>
+
+        {/* Like Button */}
+        <TouchableOpacity
+          style={styles.likeButton}
+          onPress={() => toggleLike(item.id)}
+        >
+          <Ionicons
+            name={isLiked ? 'heart' : 'heart-outline'}
+            size={20}
+            color="#FF0000"
+          />
+          <Text style={styles.likeCount}>{displayLikes}</Text>
+        </TouchableOpacity>
+      </TouchableOpacity>
     );
   };
 
-  const renderUserItem = ({ item }: { item: User }) => (
-    <TouchableOpacity
-      style={styles.userItem}
-      onPress={() => handleSendVideo(item)}
-    >
-      {item.profilePic ? (
-        <Image source={{ uri: item.profilePic }} style={styles.userAvatar} />
-      ) : (
-        <View style={styles.userAvatarPlaceholder}>
-          <Text style={styles.userAvatarText}>{getInitials(item.username)}</Text>
-        </View>
-      )}
-      <Text style={styles.userName}>{item.username}</Text>
-      <Ionicons name="send" size={20} color="#4A90E2" />
-    </TouchableOpacity>
-  );
-
-  if (loading && videos.length === 0) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#FF6B35" />
-      </View>
-    );
-  }
+  const nbaNewsVideos = videos.slice(0, 2);
+  const trendingVideos = videos.slice(2, 6);
 
   return (
     <View style={styles.container}>
+      {/* Search Bar */}
       <View style={styles.searchContainer}>
-        <View style={styles.searchInputContainer}>
-          <Ionicons name="search" size={20} color="#888" style={styles.searchIcon} />
+        <View style={styles.searchBar}>
+          <Ionicons name="search" size={20} color="#666" style={styles.searchIcon} />
           <TextInput
             style={styles.searchInput}
-            placeholder="Search basketball videos..."
-            placeholderTextColor="#888"
+            placeholder="Search"
+            placeholderTextColor="#999"
             value={searchQuery}
             onChangeText={setSearchQuery}
             onSubmitEditing={handleSearch}
             returnKeyType="search"
           />
         </View>
-        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-          <Text style={styles.searchButtonText}>Search</Text>
-        </TouchableOpacity>
       </View>
 
-      <FlatList
-        data={videos}
-        renderItem={renderVideoItem}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContent}
-        refreshing={loading}
-        onRefresh={() => fetchVideos()}
-        ListEmptyComponent={
-          <View style={styles.emptyContainer}>
-            <Ionicons name="videocam-outline" size={64} color="#555" />
-            <Text style={styles.emptyText}>No videos found</Text>
-          </View>
-        }
-      />
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        {/* Promotional Banner */}
+        <View style={styles.banner}>
+          <Text style={styles.bannerText}>
+            Stream Top Sports News!{'\n'}Post & Share Highlights
+          </Text>
+        </View>
+
+        {loading ? (
+          <ActivityIndicator size="large" color={Colors.primary} style={styles.loader} />
+        ) : (
+          <>
+            {/* NBA News Section */}
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>NBA News</Text>
+              <View style={styles.videoGrid}>
+                {nbaNewsVideos.map((video, index) => (
+                  <View key={video.id} style={[styles.videoCardWrapper, index % 2 === 1 && styles.videoCardRight]}>
+                    {renderVideoCard({ item: video })}
+                  </View>
+                ))}
+              </View>
+            </View>
+
+            {/* Trending Videos Section */}
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Trending Videos</Text>
+              <View style={styles.videoGrid}>
+                {trendingVideos.map((video, index) => (
+                  <View key={video.id} style={[styles.videoCardWrapper, index % 2 === 1 && styles.videoCardRight]}>
+                    {renderVideoCard({ item: video })}
+                  </View>
+                ))}
+              </View>
+            </View>
+          </>
+        )}
+      </ScrollView>
 
       {/* Video Player Modal */}
       <Modal
         visible={showPlayerModal}
         animationType="slide"
+        transparent={true}
         onRequestClose={() => setShowPlayerModal(false)}
       >
-        <View style={styles.playerModalContainer}>
-          <View style={styles.playerHeader}>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setShowPlayerModal(false)}
-            >
-              <Ionicons name="close" size={30} color="#FFF" />
-            </TouchableOpacity>
-          </View>
-          
-          {selectedVideo && (
-            <View style={styles.playerContent}>
-              {Platform.OS === 'web' ? (
-                <iframe
-                  width="100%"
-                  height="250"
-                  src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1`}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  style={{ borderRadius: 8 }}
-                />
-              ) : (
-                <View style={styles.nativeVideoPlaceholder}>
-                  <TouchableOpacity
-                    style={styles.watchOnYouTubeButton}
-                    onPress={() => Linking.openURL(`https://www.youtube.com/watch?v=${selectedVideo.id}`)}
-                  >
-                    <Ionicons name="logo-youtube" size={40} color="#FF0000" />
-                    <Text style={styles.watchOnYouTubeText}>Watch on YouTube</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-              
-              <View style={styles.playerInfo}>
-                <Text style={styles.playerTitle}>{selectedVideo.title}</Text>
-                <View style={styles.playerMeta}>
-                  <Ionicons name="person-circle-outline" size={18} color="#888" />
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle} numberOfLines={2}>
+                {selectedVideo?.title}
+              </Text>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setShowPlayerModal(false)}
+              >
+                <Ionicons name="close" size={28} color="#FFF" />
+              </TouchableOpacity>
+            </View>
+
+            {selectedVideo && (
+              <View style={styles.playerContent}>
+                {Platform.OS === 'web' ? (
+                  <iframe
+                    width="100%"
+                    height="250"
+                    src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1`}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    style={{ borderRadius: 8 }}
+                  />
+                ) : (
+                  <View style={styles.nativeVideoPlaceholder}>
+                    <TouchableOpacity
+                      style={styles.watchOnYouTubeButton}
+                      onPress={() => Linking.openURL(`https://www.youtube.com/watch?v=${selectedVideo.id}`)}
+                    >
+                      <Ionicons name="logo-youtube" size={40} color="#FF0000" />
+                      <Text style={styles.watchOnYouTubeText}>Watch on YouTube</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+
+                <View style={styles.playerInfo}>
+                  <Text style={styles.playerTitle}>{selectedVideo.title}</Text>
                   <Text style={styles.playerChannel}>{selectedVideo.channelTitle}</Text>
                 </View>
-                
+
                 <View style={styles.playerActions}>
                   <TouchableOpacity
-                    style={styles.playerActionButton}
-                    onPress={() => {
-                      handleLike(selectedVideo.id);
-                    }}
+                    style={styles.playerAction}
+                    onPress={() => toggleLike(selectedVideo.id)}
                   >
                     <Ionicons
                       name={likedVideos.has(selectedVideo.id) ? 'heart' : 'heart-outline'}
-                      size={28}
-                      color={likedVideos.has(selectedVideo.id) ? '#FF6B35' : '#888'}
+                      size={24}
+                      color="#FF0000"
                     />
-                    <Text style={[styles.playerActionText, likedVideos.has(selectedVideo.id) && styles.likedText]}>
-                      {likedVideos.has(selectedVideo.id) ? 'Liked' : 'Like'}
-                    </Text>
+                    <Text style={styles.playerActionText}>Like</Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={styles.playerActionButton}
+                    style={styles.playerAction}
                     onPress={() => {
                       setShowPlayerModal(false);
-                      setTimeout(() => openShareModal(selectedVideo), 300);
+                      setTimeout(() => setShowShareModal(true), 300);
                     }}
                   >
-                    <Ionicons name="share-outline" size={28} color="#888" />
+                    <Ionicons name="share-outline" size={24} color="#888" />
                     <Text style={styles.playerActionText}>Share</Text>
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
-          )}
+            )}
+          </View>
         </View>
       </Modal>
 
       {/* Share Modal */}
       <Modal
         visible={showShareModal}
-        transparent
         animationType="slide"
+        transparent={true}
         onRequestClose={() => setShowShareModal(false)}
       >
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={() => setShowShareModal(false)}
-        >
-          <TouchableOpacity
-            style={styles.modalContent}
-            activeOpacity={1}
-            onPress={(e) => e.stopPropagation()}
-          >
-            <View style={styles.modalHandle} />
-            <Text style={styles.modalTitle}>Send to...</Text>
-            <ScrollView style={styles.userList}>
-              <FlatList
-                data={users}
-                renderItem={renderUserItem}
-                keyExtractor={(item) => item.id}
-                scrollEnabled={false}
-                ListEmptyComponent={
-                  <View style={styles.emptyUserList}>
-                    <Ionicons name="people-outline" size={48} color="#555" />
-                    <Text style={styles.emptyUserText}>No users available</Text>
-                  </View>
-                }
-              />
-            </ScrollView>
-            <TouchableOpacity
-              style={styles.cancelButton}
-              onPress={() => setShowShareModal(false)}
-            >
-              <Text style={styles.cancelButtonText}>Cancel</Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-        </TouchableOpacity>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Share Video</Text>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setShowShareModal(false)}
+              >
+                <Ionicons name="close" size={28} color="#FFF" />
+              </TouchableOpacity>
+            </View>
+
+            <FlatList
+              data={users}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.userItem}
+                  onPress={() => handleShare(item.id)}
+                >
+                  {item.profilePic ? (
+                    <Image source={{ uri: item.profilePic }} style={styles.userAvatar} />
+                  ) : (
+                    <View style={styles.userAvatarPlaceholder}>
+                      <Text style={styles.userAvatarText}>
+                        {item.username.charAt(0).toUpperCase()}
+                      </Text>
+                    </View>
+                  )}
+                  <Text style={styles.username}>{item.username}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+        </View>
       </Modal>
     </View>
   );
@@ -383,68 +360,86 @@ export default function MediaScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#000',
+    backgroundColor: '#FFFFFF',
   },
   searchContainer: {
-    padding: 16,
-    flexDirection: 'row',
-    gap: 8,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: Spacing.md,
+    backgroundColor: '#FFFFFF',
   },
-  searchInputContainer: {
-    flex: 1,
+  searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1A1A1A',
-    paddingHorizontal: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#333',
+    backgroundColor: '#000000',
+    borderRadius: 25,
+    paddingHorizontal: Spacing.md,
+    height: 50,
   },
   searchIcon: {
-    marginRight: 8,
+    marginRight: Spacing.sm,
+    color: '#FFFFFF',
   },
   searchInput: {
     flex: 1,
-    height: 48,
-    color: '#FFF',
     fontSize: 16,
+    color: '#FFFFFF',
   },
-  searchButton: {
-    backgroundColor: '#FF6B35',
-    borderRadius: 12,
-    paddingHorizontal: 20,
-    justifyContent: 'center',
+  content: {
+    flex: 1,
+  },
+  banner: {
+    marginHorizontal: Spacing.md,
+    marginTop: Spacing.sm,
+    marginBottom: Spacing.lg,
+    backgroundColor: '#2A2A2A',
+    borderRadius: 25,
+    paddingVertical: Spacing.lg,
+    paddingHorizontal: Spacing.lg,
     alignItems: 'center',
   },
-  searchButtonText: {
-    color: '#FFF',
-    fontSize: 16,
-    fontWeight: '600',
+  bannerText: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    textAlign: 'center',
+    lineHeight: 24,
   },
-  listContent: {
-    paddingHorizontal: 16,
-    paddingBottom: 16,
+  section: {
+    marginBottom: Spacing.xl,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000000',
+    paddingHorizontal: Spacing.md,
+    marginBottom: Spacing.md,
+  },
+  videoGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingHorizontal: Spacing.sm,
+  },
+  videoCardWrapper: {
+    width: cardWidth,
+    marginBottom: Spacing.md,
+    paddingHorizontal: Spacing.sm,
+  },
+  videoCardRight: {
+    marginTop: 20,
   },
   videoCard: {
-    backgroundColor: '#1A1A1A',
-    borderRadius: 12,
-    marginBottom: 16,
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: BorderRadius.lg,
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: '#333',
+    backgroundColor: '#F5F5F5',
+    position: 'relative',
   },
   thumbnail: {
     width: '100%',
-    height: 200,
-    backgroundColor: '#333',
+    height: '100%',
   },
-  playIconContainer: {
+  playButtonOverlay: {
     position: 'absolute',
     top: 0,
     left: 0,
@@ -452,159 +447,59 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
-  videoInfo: {
-    padding: 12,
+  playIcon: {
+    opacity: 0.9,
   },
-  videoTitle: {
-    fontSize: 16,
+  likeButton: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 12,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+  },
+  likeCount: {
+    marginLeft: 4,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#FFF',
-    marginBottom: 8,
+    color: '#000000',
   },
-  videoMeta: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    marginBottom: 12,
+  loader: {
+    marginTop: 50,
   },
-  channelName: {
-    fontSize: 14,
-    color: '#888',
+  modalContainer: {
     flex: 1,
-  },
-  videoActions: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#333',
-  },
-  actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-  },
-  actionText: {
-    fontSize: 14,
-    color: '#888',
-    fontWeight: '500',
-  },
-  likedText: {
-    color: '#FF6B35',
-  },
-  emptyContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 64,
-  },
-  emptyText: {
-    fontSize: 18,
-    color: '#555',
-    marginTop: 16,
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
     justifyContent: 'flex-end',
   },
   modalContent: {
     backgroundColor: '#1A1A1A',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
-    padding: 24,
-    maxHeight: '70%',
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderColor: '#333',
+    paddingTop: 8,
+    paddingBottom: 32,
+    maxHeight: '80%',
   },
-  modalHandle: {
-    width: 40,
-    height: 4,
-    backgroundColor: '#555',
-    borderRadius: 2,
-    alignSelf: 'center',
-    marginBottom: 16,
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#333',
   },
   modalTitle: {
-    fontSize: 24,
+    flex: 1,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#FFF',
-    marginBottom: 16,
-  },
-  userList: {
-    maxHeight: 400,
-  },
-  userItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
-    backgroundColor: '#2A2A2A',
-    borderRadius: 12,
-    marginBottom: 8,
-    gap: 12,
-  },
-  userAvatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#555',
-  },
-  userAvatarPlaceholder: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#FF6B35',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  userAvatarText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#FFF',
-  },
-  userName: {
-    flex: 1,
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FFF',
-  },
-  emptyUserList: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 32,
-  },
-  emptyUserText: {
-    fontSize: 16,
-    color: '#888',
-    marginTop: 12,
-  },
-  cancelButton: {
-    backgroundColor: '#333',
-    borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  cancelButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FFF',
-  },
-  playerModalContainer: {
-    flex: 1,
-    backgroundColor: '#000',
-  },
-  playerHeader: {
-    paddingTop: 48,
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    backgroundColor: '#000',
+    marginRight: 12,
   },
   closeButton: {
     width: 44,
@@ -612,48 +507,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 22,
-    backgroundColor: '#1A1A1A',
+    backgroundColor: '#2A2A2A',
   },
   playerContent: {
-    flex: 1,
-  },
-  playerInfo: {
     padding: 20,
-  },
-  playerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#FFF',
-    marginBottom: 12,
-    lineHeight: 28,
-  },
-  playerMeta: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: 24,
-  },
-  playerChannel: {
-    fontSize: 16,
-    color: '#888',
-  },
-  playerActions: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: '#333',
-  },
-  playerActionButton: {
-    alignItems: 'center',
-    gap: 8,
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-  },
-  playerActionText: {
-    fontSize: 16,
-    color: '#888',
-    fontWeight: '600',
   },
   nativeVideoPlaceholder: {
     height: 250,
@@ -673,6 +530,67 @@ const styles = StyleSheet.create({
   },
   watchOnYouTubeText: {
     fontSize: 18,
+    fontWeight: '600',
+    color: '#FFF',
+  },
+  playerInfo: {
+    marginTop: 16,
+  },
+  playerTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFF',
+    marginBottom: 8,
+  },
+  playerChannel: {
+    fontSize: 14,
+    color: '#888',
+  },
+  playerActions: {
+    flexDirection: 'row',
+    marginTop: 20,
+    gap: 24,
+  },
+  playerAction: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  playerActionText: {
+    fontSize: 16,
+    color: '#888',
+    fontWeight: '600',
+  },
+  userItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#333',
+  },
+  userAvatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    marginRight: 12,
+  },
+  userAvatarPlaceholder: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: Colors.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  userAvatarText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#FFF',
+  },
+  username: {
+    fontSize: 16,
     fontWeight: '600',
     color: '#FFF',
   },
