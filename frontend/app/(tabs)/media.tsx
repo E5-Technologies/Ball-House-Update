@@ -44,6 +44,7 @@ export default function MediaScreen() {
   const [searchQuery, setSearchQuery] = useState('NBA basketball highlights');
   const [likedVideos, setLikedVideos] = useState<Set<string>>(new Set());
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showPlayerModal, setShowPlayerModal] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [users, setUsers] = useState<User[]>([]);
   const { token } = useAuth();
