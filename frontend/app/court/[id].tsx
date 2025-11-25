@@ -101,12 +101,6 @@ export default function CourtDetailsScreen() {
     }
   };
 
-  const callCourt = () => {
-    if (court) {
-      Linking.openURL(`tel:${court.phoneNumber}`);
-    }
-  };
-
   const getPlayerColor = (count: number) => {
     if (count === 0) return '#555';
     if (count <= 5) return '#4CAF50';
