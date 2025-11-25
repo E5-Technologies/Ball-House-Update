@@ -227,17 +227,13 @@ export default function CourtDetailsScreen() {
           </View>
         </View>
 
-        <View style={styles.actionButtons}>
-          <TouchableOpacity style={styles.actionButton} onPress={openMaps}>
-            <Ionicons name="navigate" size={24} color="#4A90E2" />
-            <Text style={styles.actionButtonText}>Directions</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.actionButton} onPress={callCourt}>
-            <Ionicons name="call" size={24} color="#4CAF50" />
-            <Text style={styles.actionButtonText}>Call</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity 
+          style={[styles.directionsButton, { backgroundColor: playerColor }]} 
+          onPress={openMaps}
+        >
+          <Ionicons name="navigate" size={24} color="#FFF" />
+          <Text style={styles.directionsButtonText}>Get Directions</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );
