@@ -412,6 +412,7 @@ async def get_courts():
         "phoneNumber": court["phoneNumber"],
         "rating": court["rating"],
         "currentPlayers": court.get("currentPlayers", 0),
+        "averagePlayers": court.get("averagePlayers", 12),
         "image": court.get("image")
     } for court in courts]
 
