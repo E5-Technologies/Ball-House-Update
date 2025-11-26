@@ -404,6 +404,7 @@ const styles = StyleSheet.create({
   },
   statItem: {
     alignItems: 'center',
+    flex: 1,
   },
   statValue: {
     fontSize: 24,
@@ -414,6 +415,12 @@ const styles = StyleSheet.create({
   statLabel: {
     fontSize: 13,
     color: '#666',
+  },
+  statDivider: {
+    width: 1,
+    height: 40,
+    backgroundColor: '#DDD',
+    marginHorizontal: 20,
   },
   menuContainer: {
     marginTop: Spacing.lg,
