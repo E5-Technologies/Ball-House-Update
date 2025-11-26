@@ -31,12 +31,12 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="messages"
+        name="media"
         options={{
-          title: 'Messages',
-          headerTitle: 'Messages',
+          title: 'Media',
+          headerTitle: 'Basketball Media',
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="chatbubbles" size={size} color={color} />
+            <Ionicons name="play-circle" size={size} color={color} />
           ),
         }}
       />
@@ -47,16 +47,6 @@ export default function TabLayout() {
           headerTitle: 'Find Courts',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="location" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="media"
-        options={{
-          title: 'Media',
-          headerTitle: 'Basketball Media',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="play-circle" size={size} color={color} />
           ),
         }}
       />
