@@ -215,9 +215,6 @@ export default function CourtsScreen() {
             )}
           </View>
         </View>
-
-        {/* Chevron */}
-        <Ionicons name="chevron-forward" size={20} color="#CCC" />
       </TouchableOpacity>
     );
   };
