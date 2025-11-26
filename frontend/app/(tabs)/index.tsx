@@ -466,12 +466,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 6,
   },
-  statusPill: {
+  playerCountBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    borderRadius: 12,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 16,
+    gap: 6,
+  },
+  playerCountBadgeText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#FFF',
   },
   courtAddress: {
     fontSize: 13,
