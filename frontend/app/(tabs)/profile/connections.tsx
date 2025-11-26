@@ -56,7 +56,10 @@ export default function ConnectionsScreen() {
   const renderPlayer = ({ item }: { item: Player }) => (
     <TouchableOpacity
       style={styles.playerCard}
-      onPress={() => router.push(`/user/${item.id}`)}
+      onPress={() => router.push({
+        pathname: '/(tabs)/profile/user-detail',
+        params: { userId: item.id }
+      })}
     >
       <View style={styles.playerInfo}>
         {item.profilePic ? (
