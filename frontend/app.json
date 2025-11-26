@@ -1,15 +1,27 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "Ball House",
+    "slug": "ball-house",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "frontend",
-    "userInterfaceStyle": "automatic",
+    "scheme": "ballhouse",
+    "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "privacy": "public",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.ballhouse.app",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Ball House uses your location to show nearby basketball courts and count you as present when you're at a court.",
+        "NSCameraUsageDescription": "Ball House needs camera access to update your profile picture.",
+        "NSPhotoLibraryUsageDescription": "Ball House needs photo library access to select profile pictures.",
+        "UIBackgroundModes": ["location"]
+      },
+      "config": {
+        "googleMapsApiKey": "YOUR_GOOGLE_MAPS_API_KEY"
+      }
     },
     "android": {
       "adaptiveIcon": {
