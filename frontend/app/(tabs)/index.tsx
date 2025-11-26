@@ -203,17 +203,12 @@ export default function CourtsScreen() {
             <Text style={styles.infoText}>Avg: {item.averagePlayers} players</Text>
           </View>
 
-          {/* Player Count Badge and Distance */}
-          <View style={styles.bottomRow}>
-            <View style={[styles.playerCountBadge, { backgroundColor: playerColor }]}>
-              <Ionicons name="people" size={14} color="#FFF" />
-              <Text style={styles.playerCountBadgeText}>{item.currentPlayers} players</Text>
-            </View>
-            
-            {distance && (
+          {/* Distance */}
+          {distance && (
+            <View style={styles.bottomRow}>
               <Text style={styles.distanceText}>{distance} mi away</Text>
-            )}
-          </View>
+            </View>
+          )}
         </View>
       </TouchableOpacity>
     );
