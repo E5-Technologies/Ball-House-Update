@@ -182,22 +182,34 @@ export default function CourtDetailsScreen() {
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>Current Activity</Text>
           
-          <View style={[styles.activityBadge, { backgroundColor: playerColor }]}>
-            <Ionicons name="people" size={32} color="#FFF" />
-            <Text style={styles.playerCountLarge}>{court.currentPlayers}</Text>
-            <Text style={styles.playerLabel}>Players Now</Text>
+          {/* Ball House Members Currently Here */}
+          <View style={styles.activityRow}>
+            <View style={styles.activityItem}>
+              <View style={[styles.activityBadge, { backgroundColor: playerColor }]}>
+                <Ionicons name="people" size={28} color="#FFF" />
+                <Text style={styles.playerCountLarge}>{court.currentPlayers}</Text>
+              </View>
+              <Text style={styles.activityLabel}>Ball House Members</Text>
+              <Text style={styles.activitySubtext}>Currently here</Text>
+            </View>
+
+            {/* Divider */}
+            <View style={styles.activityDivider} />
+
+            {/* Average Players */}
+            <View style={styles.activityItem}>
+              <View style={[styles.activityBadge, { backgroundColor: '#6B4FFF' }]}>
+                <Ionicons name="bar-chart" size={28} color="#FFF" />
+                <Text style={styles.playerCountLarge}>{court.averagePlayers}</Text>
+              </View>
+              <Text style={styles.activityLabel}>Average Players</Text>
+              <Text style={styles.activitySubtext}>Typical crowd size</Text>
+            </View>
           </View>
 
           <View style={styles.statusContainer}>
             <View style={[styles.statusDot, { backgroundColor: playerColor }]} />
             <Text style={styles.statusText}>{playerStatus}</Text>
-          </View>
-
-          <View style={styles.averageContainer}>
-            <Ionicons name="bar-chart-outline" size={20} color="#888" />
-            <Text style={styles.averageText}>
-              Typically {court.averagePlayers} players at this court
-            </Text>
           </View>
         </View>
 
