@@ -9,6 +9,7 @@ import {
   Platform,
   Alert,
   ScrollView,
+  Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '../../contexts/AuthContext';
