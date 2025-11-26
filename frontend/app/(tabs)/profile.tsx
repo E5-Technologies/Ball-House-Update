@@ -25,9 +25,11 @@ export default function ProfileScreen() {
   const [uploading, setUploading] = useState(false);
   const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [networkCount, setNetworkCount] = useState(0);
+  const [recentPlayersCount, setRecentPlayersCount] = useState(0);
 
   useEffect(() => {
     fetchNetworkCount();
+    fetchRecentPlayersCount();
   }, []);
 
   const fetchNetworkCount = async () => {
@@ -38,6 +40,17 @@ export default function ProfileScreen() {
       setNetworkCount(response.data.length);
     } catch (error) {
       console.error('Error fetching network count:', error);
+    }
+  };
+
+  const fetchRecentPlayersCount = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/network/recent-players`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setRecentPlayersCount(response.data.length);
+    } catch (error) {
+      console.error('Error fetching recent players count:', error);
     }
   };
   
