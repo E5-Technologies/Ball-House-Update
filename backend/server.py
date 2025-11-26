@@ -1057,6 +1057,12 @@ Return ONLY a valid JSON object with this exact structure (no markdown, no code 
             )
             
             ai_data = ai_response.json()
+            logging.info(f"OpenAI response: {ai_data}")
+            
+            # Check if response is successful
+            if "choices" not in ai_data or len(ai_data["choices"]) == 0:
+                raise Exception(f"Invalid AI response: {ai_data}")
+            
             ai_content = ai_data["choices"][0]["message"]["content"].strip()
             
             # Parse AI response (remove markdown if present)
