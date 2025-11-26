@@ -51,17 +51,17 @@ export default function Register() {
       style={styles.container}
     >
       <ScrollView contentContainerStyle={styles.scrollContent}>
+        {/* Logo Header */}
         <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => router.back()}
-          >
-            <Ionicons name="arrow-back" size={24} color="#FFF" />
-          </TouchableOpacity>
-          <Ionicons name="basketball" size={80} color="#FF6B35" />
-          <Text style={styles.title}>Create Account</Text>
-          <Text style={styles.subtitle}>Join the community</Text>
+          <Image 
+            source={require('../../assets/ball_house_logo_6.png')} 
+            style={styles.logo}
+            resizeMode="contain"
+          />
         </View>
+
+        <Text style={styles.title}>Create Account</Text>
+        <Text style={styles.subtitle}>Join the Ball House community</Text>
 
         <View style={styles.form}>
           <View style={styles.inputContainer}>
