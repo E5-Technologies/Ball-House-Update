@@ -48,7 +48,7 @@ export default function Login() {
         {/* Logo Header */}
         <View style={styles.header}>
           <Image 
-            source={require('../../assets/ball-house-logo-v3.png')} 
+            source={require('../../assets/ball-house-logo-v4.png')} 
             style={styles.logo}
             resizeMode="contain"
           />
