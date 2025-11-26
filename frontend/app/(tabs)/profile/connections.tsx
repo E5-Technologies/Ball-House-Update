@@ -13,7 +13,7 @@ import { useRouter } from 'expo-router';
 import { useAuth } from '../../../contexts/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
-import { Colors, BorderRadius, Spacing } from '../../constants/theme';
+import { Colors, BorderRadius, Spacing } from '../../../constants/theme';
 
 const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL;
 
