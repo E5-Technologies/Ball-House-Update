@@ -126,7 +126,6 @@ export default function CourtsScreen() {
   const renderCourtItem = ({ item }: { item: Court }) => {
     const distance = getDistance(item);
     const playerColor = getPlayerColor(item.currentPlayers);
-    const playerStatus = getPlayerStatus(item.currentPlayers);
 
     return (
       <TouchableOpacity
@@ -138,11 +137,6 @@ export default function CourtsScreen() {
         <View style={styles.courtIconContainer}>
           <View style={styles.iconCircle}>
             <Ionicons name="people" size={32} color={Colors.primary} />
-          </View>
-          
-          {/* Player Count Badge */}
-          <View style={[styles.playerBadge, { backgroundColor: playerColor }]}>
-            <Text style={styles.playerBadgeText}>{item.currentPlayers}</Text>
           </View>
         </View>
 
@@ -175,11 +169,11 @@ export default function CourtsScreen() {
             <Text style={styles.infoText}>{item.hours}</Text>
           </View>
 
-          {/* Player Status and Distance */}
+          {/* Player Count Badge and Distance */}
           <View style={styles.bottomRow}>
-            <View style={[styles.statusPill, { backgroundColor: `${playerColor}20` }]}>
-              <View style={[styles.statusDot, { backgroundColor: playerColor }]} />
-              <Text style={[styles.statusText, { color: playerColor }]}>{playerStatus}</Text>
+            <View style={[styles.playerCountBadge, { backgroundColor: playerColor }]}>
+              <Ionicons name="people" size={14} color="#FFF" />
+              <Text style={styles.playerCountBadgeText}>{item.currentPlayers} players</Text>
             </View>
             
             {distance && (
