@@ -404,7 +404,7 @@ async def initialize_courts():
             }
         ]
         await db.courts.insert_many(nationwide_courts)
-        logging.info("Initialized Houston basketball courts with gym locations")
+        logging.info("Initialized nationwide basketball courts database")
 
 # Authentication Routes
 @api_router.post("/auth/register")
