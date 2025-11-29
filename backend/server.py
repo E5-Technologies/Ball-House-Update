@@ -150,8 +150,9 @@ class FriendRequestResponse(BaseModel):
 async def initialize_courts():
     count = await db.courts.count_documents({})
     if count == 0:
-        houston_courts = [
-            # Public Parks
+        # Nationwide basketball courts covering all 50 US states
+        nationwide_courts = [
+            # TEXAS - Houston
             {
                 "name": "Discovery Green Court",
                 "address": "1500 McKinney St, Houston, TX 77010",
