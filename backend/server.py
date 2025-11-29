@@ -403,7 +403,7 @@ async def initialize_courts():
                 "image": None
             }
         ]
-        await db.courts.insert_many(houston_courts)
+        await db.courts.insert_many(nationwide_courts)
         logging.info("Initialized Houston basketball courts with gym locations")
 
 # Authentication Routes
