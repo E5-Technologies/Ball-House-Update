@@ -401,10 +401,771 @@ async def initialize_courts():
                 "averagePlayers": 19,
                 "publicUsersAtCourt": [],
                 "image": None
+            },
+            
+            # CALIFORNIA - Los Angeles
+            {
+                "name": "Venice Beach Basketball Courts",
+                "address": "1800 Ocean Front Walk, Venice, CA 90291",
+                "latitude": 33.9850,
+                "longitude": -118.4695,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "310-396-6764",
+                "rating": 4.8,
+                "currentPlayers": 0,
+                "averagePlayers": 25,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            {
+                "name": "Hollenback Park Courts",
+                "address": "415 S St Louis St, Los Angeles, CA 90033",
+                "latitude": 34.0334,
+                "longitude": -118.2070,
+                "hours": "5:00 am - 10:00 pm",
+                "phoneNumber": "323-261-0113",
+                "rating": 4.5,
+                "currentPlayers": 0,
+                "averagePlayers": 18,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # CALIFORNIA - San Francisco
+            {
+                "name": "Golden Gate Park Courts",
+                "address": "501 Stanyan St, San Francisco, CA 94117",
+                "latitude": 37.7694,
+                "longitude": -122.4542,
+                "hours": "7:00 am - 9:00 pm",
+                "phoneNumber": "415-831-2700",
+                "rating": 4.4,
+                "currentPlayers": 0,
+                "averagePlayers": 16,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # NEW YORK - New York City
+            {
+                "name": "Rucker Park",
+                "address": "155th St & Frederick Douglass Blvd, New York, NY 10039",
+                "latitude": 40.8303,
+                "longitude": -73.9389,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "212-639-9675",
+                "rating": 4.9,
+                "currentPlayers": 0,
+                "averagePlayers": 30,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            {
+                "name": "West 4th Street Courts",
+                "address": "1 6th Ave, New York, NY 10013",
+                "latitude": 40.7308,
+                "longitude": -74.0011,
+                "hours": "24 hours",
+                "phoneNumber": "212-639-9675",
+                "rating": 4.7,
+                "currentPlayers": 0,
+                "averagePlayers": 28,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # ILLINOIS - Chicago
+            {
+                "name": "Jackson Park Courts",
+                "address": "6401 S Stony Island Ave, Chicago, IL 60637",
+                "latitude": 41.7753,
+                "longitude": -87.5842,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "312-742-7529",
+                "rating": 4.5,
+                "currentPlayers": 0,
+                "averagePlayers": 20,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # FLORIDA - Miami
+            {
+                "name": "Bayfront Park Courts",
+                "address": "301 Biscayne Blvd, Miami, FL 33132",
+                "latitude": 25.7742,
+                "longitude": -80.1867,
+                "hours": "7:00 am - 11:00 pm",
+                "phoneNumber": "305-358-7550",
+                "rating": 4.6,
+                "currentPlayers": 0,
+                "averagePlayers": 22,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # GEORGIA - Atlanta
+            {
+                "name": "Piedmont Park Courts",
+                "address": "1071 Piedmont Ave NE, Atlanta, GA 30309",
+                "latitude": 33.7865,
+                "longitude": -84.3733,
+                "hours": "6:00 am - 11:00 pm",
+                "phoneNumber": "404-875-7275",
+                "rating": 4.5,
+                "currentPlayers": 0,
+                "averagePlayers": 19,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # PENNSYLVANIA - Philadelphia
+            {
+                "name": "FDR Skate Park Courts",
+                "address": "1800 Pattison Ave, Philadelphia, PA 19145",
+                "latitude": 39.9063,
+                "longitude": -75.1764,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "215-685-0000",
+                "rating": 4.4,
+                "currentPlayers": 0,
+                "averagePlayers": 17,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # ARIZONA - Phoenix
+            {
+                "name": "Encanto Park Courts",
+                "address": "2605 N 15th Ave, Phoenix, AZ 85007",
+                "latitude": 33.4777,
+                "longitude": -112.0921,
+                "hours": "5:00 am - 11:00 pm",
+                "phoneNumber": "602-261-8991",
+                "rating": 4.3,
+                "currentPlayers": 0,
+                "averagePlayers": 15,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # WASHINGTON - Seattle
+            {
+                "name": "Green Lake Park Courts",
+                "address": "7201 East Green Lake Dr N, Seattle, WA 98115",
+                "latitude": 47.6803,
+                "longitude": -122.3295,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "206-684-4075",
+                "rating": 4.5,
+                "currentPlayers": 0,
+                "averagePlayers": 18,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # MASSACHUSETTS - Boston
+            {
+                "name": "Boston Common Courts",
+                "address": "139 Tremont St, Boston, MA 02111",
+                "latitude": 42.3551,
+                "longitude": -71.0656,
+                "hours": "7:00 am - 9:00 pm",
+                "phoneNumber": "617-635-4505",
+                "rating": 4.4,
+                "currentPlayers": 0,
+                "averagePlayers": 16,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # COLORADO - Denver
+            {
+                "name": "City Park Courts",
+                "address": "2001 Colorado Blvd, Denver, CO 80205",
+                "latitude": 39.7470,
+                "longitude": -104.9506,
+                "hours": "5:00 am - 11:00 pm",
+                "phoneNumber": "720-913-1311",
+                "rating": 4.6,
+                "currentPlayers": 0,
+                "averagePlayers": 20,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # OREGON - Portland
+            {
+                "name": "Peninsula Park Courts",
+                "address": "700 N Rosa Parks Way, Portland, OR 97217",
+                "latitude": 45.5696,
+                "longitude": -122.6758,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "503-823-3600",
+                "rating": 4.3,
+                "currentPlayers": 0,
+                "averagePlayers": 14,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # NEVADA - Las Vegas
+            {
+                "name": "Sunset Park Courts",
+                "address": "2601 E Sunset Rd, Las Vegas, NV 89120",
+                "latitude": 36.0688,
+                "longitude": -115.1197,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "702-455-8200",
+                "rating": 4.5,
+                "currentPlayers": 0,
+                "averagePlayers": 18,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # NORTH CAROLINA - Charlotte
+            {
+                "name": "Freedom Park Courts",
+                "address": "1900 East Blvd, Charlotte, NC 28203",
+                "latitude": 35.1944,
+                "longitude": -80.8306,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "704-432-4280",
+                "rating": 4.4,
+                "currentPlayers": 0,
+                "averagePlayers": 17,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # TENNESSEE - Nashville
+            {
+                "name": "Centennial Park Courts",
+                "address": "2500 West End Ave, Nashville, TN 37203",
+                "latitude": 36.1494,
+                "longitude": -86.8131,
+                "hours": "7:00 am - 10:00 pm",
+                "phoneNumber": "615-862-8400",
+                "rating": 4.3,
+                "currentPlayers": 0,
+                "averagePlayers": 15,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # MICHIGAN - Detroit
+            {
+                "name": "Belle Isle Courts",
+                "address": "99 Pleasure Dr, Detroit, MI 48207",
+                "latitude": 42.3407,
+                "longitude": -82.9858,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "313-821-9844",
+                "rating": 4.2,
+                "currentPlayers": 0,
+                "averagePlayers": 14,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # OHIO - Columbus
+            {
+                "name": "Goodale Park Courts",
+                "address": "120 W Goodale St, Columbus, OH 43215",
+                "latitude": 39.9771,
+                "longitude": -83.0027,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "614-645-3300",
+                "rating": 4.4,
+                "currentPlayers": 0,
+                "averagePlayers": 16,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # MINNESOTA - Minneapolis
+            {
+                "name": "Powderhorn Park Courts",
+                "address": "3400 15th Ave S, Minneapolis, MN 55407",
+                "latitude": 44.9486,
+                "longitude": -93.2606,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "612-230-6400",
+                "rating": 4.3,
+                "currentPlayers": 0,
+                "averagePlayers": 15,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # MISSOURI - Kansas City
+            {
+                "name": "Swope Park Courts",
+                "address": "6601 Swope Pkwy, Kansas City, MO 64132",
+                "latitude": 38.9967,
+                "longitude": -94.5283,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "816-513-7500",
+                "rating": 4.2,
+                "currentPlayers": 0,
+                "averagePlayers": 13,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # WISCONSIN - Milwaukee
+            {
+                "name": "Lake Park Courts",
+                "address": "3233 E Kenwood Blvd, Milwaukee, WI 53211",
+                "latitude": 43.0614,
+                "longitude": -87.8768,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "414-257-7275",
+                "rating": 4.3,
+                "currentPlayers": 0,
+                "averagePlayers": 14,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # VIRGINIA - Richmond
+            {
+                "name": "Bryan Park Courts",
+                "address": "4308 Hermitage Rd, Richmond, VA 23227",
+                "latitude": 37.5965,
+                "longitude": -77.4652,
+                "hours": "7:00 am - 9:00 pm",
+                "phoneNumber": "804-646-7000",
+                "rating": 4.2,
+                "currentPlayers": 0,
+                "averagePlayers": 12,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # INDIANA - Indianapolis
+            {
+                "name": "Garfield Park Courts",
+                "address": "2345 Pagoda Dr, Indianapolis, IN 46203",
+                "latitude": 39.7348,
+                "longitude": -86.1480,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "317-327-7431",
+                "rating": 4.3,
+                "currentPlayers": 0,
+                "averagePlayers": 15,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # LOUISIANA - New Orleans
+            {
+                "name": "City Park Courts",
+                "address": "1 Palm Dr, New Orleans, LA 70124",
+                "latitude": 29.9908,
+                "longitude": -90.0979,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "504-482-4888",
+                "rating": 4.4,
+                "currentPlayers": 0,
+                "averagePlayers": 16,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # MARYLAND - Baltimore
+            {
+                "name": "Patterson Park Courts",
+                "address": "27 S Patterson Park Ave, Baltimore, MD 21231",
+                "latitude": 39.2904,
+                "longitude": -76.5897,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "410-396-6106",
+                "rating": 4.3,
+                "currentPlayers": 0,
+                "averagePlayers": 14,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # OKLAHOMA - Oklahoma City
+            {
+                "name": "Myriad Gardens Courts",
+                "address": "301 W Reno Ave, Oklahoma City, OK 73102",
+                "latitude": 35.4676,
+                "longitude": -97.5164,
+                "hours": "6:00 am - 11:00 pm",
+                "phoneNumber": "405-445-7080",
+                "rating": 4.2,
+                "currentPlayers": 0,
+                "averagePlayers": 13,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # KENTUCKY - Louisville
+            {
+                "name": "Waterfront Park Courts",
+                "address": "231 Witherspoon St, Louisville, KY 40202",
+                "latitude": 38.2619,
+                "longitude": -85.7407,
+                "hours": "6:00 am - 11:00 pm",
+                "phoneNumber": "502-574-3768",
+                "rating": 4.3,
+                "currentPlayers": 0,
+                "averagePlayers": 14,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # SOUTH CAROLINA - Charleston
+            {
+                "name": "Waterfront Park Courts",
+                "address": "1 Vendue Range, Charleston, SC 29401",
+                "latitude": 32.7765,
+                "longitude": -79.9253,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "843-724-7321",
+                "rating": 4.4,
+                "currentPlayers": 0,
+                "averagePlayers": 15,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # ALABAMA - Birmingham
+            {
+                "name": "Railroad Park Courts",
+                "address": "1600 1st Ave S, Birmingham, AL 35233",
+                "latitude": 33.5081,
+                "longitude": -86.8050,
+                "hours": "7:00 am - 10:00 pm",
+                "phoneNumber": "205-521-2227",
+                "rating": 4.2,
+                "currentPlayers": 0,
+                "averagePlayers": 13,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # UTAH - Salt Lake City
+            {
+                "name": "Liberty Park Courts",
+                "address": "600 E 900 S, Salt Lake City, UT 84105",
+                "latitude": 40.7425,
+                "longitude": -111.8707,
+                "hours": "6:00 am - 11:00 pm",
+                "phoneNumber": "801-972-7800",
+                "rating": 4.5,
+                "currentPlayers": 0,
+                "averagePlayers": 17,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # NEW MEXICO - Albuquerque
+            {
+                "name": "Roosevelt Park Courts",
+                "address": "700 Spruce St SE, Albuquerque, NM 87106",
+                "latitude": 35.0745,
+                "longitude": -106.6274,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "505-768-2000",
+                "rating": 4.3,
+                "currentPlayers": 0,
+                "averagePlayers": 14,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # CONNECTICUT - Hartford
+            {
+                "name": "Bushnell Park Courts",
+                "address": "166 Capitol Ave, Hartford, CT 06106",
+                "latitude": 41.7648,
+                "longitude": -72.6820,
+                "hours": "7:00 am - 9:00 pm",
+                "phoneNumber": "860-232-6710",
+                "rating": 4.2,
+                "currentPlayers": 0,
+                "averagePlayers": 12,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # IOWA - Des Moines
+            {
+                "name": "Water Works Park Courts",
+                "address": "2201 George Flagg Pkwy, Des Moines, IA 50321",
+                "latitude": 41.5715,
+                "longitude": -93.6786,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "515-237-1386",
+                "rating": 4.3,
+                "currentPlayers": 0,
+                "averagePlayers": 13,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # ARKANSAS - Little Rock
+            {
+                "name": "MacArthur Park Courts",
+                "address": "503 E 9th St, Little Rock, AR 72202",
+                "latitude": 34.7382,
+                "longitude": -92.2656,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "501-371-4770",
+                "rating": 4.2,
+                "currentPlayers": 0,
+                "averagePlayers": 12,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # MISSISSIPPI - Jackson
+            {
+                "name": "LeFleur's Bluff Courts",
+                "address": "2140 Riverside Dr, Jackson, MS 39202",
+                "latitude": 32.3375,
+                "longitude": -90.1677,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "601-432-2400",
+                "rating": 4.1,
+                "currentPlayers": 0,
+                "averagePlayers": 11,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # KANSAS - Wichita
+            {
+                "name": "Riverside Park Courts",
+                "address": "435 S Nims St, Wichita, KS 67203",
+                "latitude": 37.6839,
+                "longitude": -97.3424,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "316-660-9700",
+                "rating": 4.2,
+                "currentPlayers": 0,
+                "averagePlayers": 13,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # NEBRASKA - Omaha
+            {
+                "name": "Heartland of America Park Courts",
+                "address": "800 Douglas St, Omaha, NE 68102",
+                "latitude": 41.2565,
+                "longitude": -95.9345,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "402-444-5955",
+                "rating": 4.3,
+                "currentPlayers": 0,
+                "averagePlayers": 14,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # WEST VIRGINIA - Charleston
+            {
+                "name": "Coonskin Park Courts",
+                "address": "5000 Coonskin Dr, Charleston, WV 25312",
+                "latitude": 38.3900,
+                "longitude": -81.6968,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "304-341-8000",
+                "rating": 4.1,
+                "currentPlayers": 0,
+                "averagePlayers": 11,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # IDAHO - Boise
+            {
+                "name": "Julia Davis Park Courts",
+                "address": "700 S Capitol Blvd, Boise, ID 83702",
+                "latitude": 43.6080,
+                "longitude": -116.2027,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "208-608-7600",
+                "rating": 4.4,
+                "currentPlayers": 0,
+                "averagePlayers": 15,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # MONTANA - Billings
+            {
+                "name": "Pioneer Park Courts",
+                "address": "800 S 27th St, Billings, MT 59101",
+                "latitude": 45.7710,
+                "longitude": -108.5319,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "406-657-8371",
+                "rating": 4.2,
+                "currentPlayers": 0,
+                "averagePlayers": 12,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # WYOMING - Cheyenne
+            {
+                "name": "Lions Park Courts",
+                "address": "8th Ave & Morrie Ave, Cheyenne, WY 82001",
+                "latitude": 41.1400,
+                "longitude": -104.8211,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "307-637-6428",
+                "rating": 4.1,
+                "currentPlayers": 0,
+                "averagePlayers": 10,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # SOUTH DAKOTA - Sioux Falls
+            {
+                "name": "Falls Park Courts",
+                "address": "131 E Falls Park Dr, Sioux Falls, SD 57104",
+                "latitude": 43.5638,
+                "longitude": -96.7221,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "605-367-8222",
+                "rating": 4.2,
+                "currentPlayers": 0,
+                "averagePlayers": 12,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # NORTH DAKOTA - Fargo
+            {
+                "name": "Island Park Courts",
+                "address": "701 Elm St N, Fargo, ND 58102",
+                "latitude": 46.8823,
+                "longitude": -96.7898,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "701-241-1350",
+                "rating": 4.1,
+                "currentPlayers": 0,
+                "averagePlayers": 11,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # MAINE - Portland
+            {
+                "name": "Deering Oaks Park Courts",
+                "address": "State St & Deering Ave, Portland, ME 04101",
+                "latitude": 43.6541,
+                "longitude": -70.2683,
+                "hours": "6:00 am - 9:00 pm",
+                "phoneNumber": "207-874-8793",
+                "rating": 4.2,
+                "currentPlayers": 0,
+                "averagePlayers": 12,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # NEW HAMPSHIRE - Manchester
+            {
+                "name": "Livingston Park Courts",
+                "address": "235 Beech St, Manchester, NH 03104",
+                "latitude": 42.9847,
+                "longitude": -71.4601,
+                "hours": "6:00 am - 9:00 pm",
+                "phoneNumber": "603-624-6444",
+                "rating": 4.1,
+                "currentPlayers": 0,
+                "averagePlayers": 11,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # VERMONT - Burlington
+            {
+                "name": "Leddy Park Courts",
+                "address": "1 Leddy Park Rd, Burlington, VT 05408",
+                "latitude": 44.4964,
+                "longitude": -73.2277,
+                "hours": "6:00 am - 9:00 pm",
+                "phoneNumber": "802-864-0123",
+                "rating": 4.3,
+                "currentPlayers": 0,
+                "averagePlayers": 13,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # RHODE ISLAND - Providence
+            {
+                "name": "Waterplace Park Courts",
+                "address": "Exchange Terrace, Providence, RI 02903",
+                "latitude": 41.8268,
+                "longitude": -71.4128,
+                "hours": "7:00 am - 9:00 pm",
+                "phoneNumber": "401-785-9450",
+                "rating": 4.2,
+                "currentPlayers": 0,
+                "averagePlayers": 12,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # DELAWARE - Wilmington
+            {
+                "name": "Brandywine Park Courts",
+                "address": "1021 N Park Dr, Wilmington, DE 19802",
+                "latitude": 39.7662,
+                "longitude": -75.5484,
+                "hours": "6:00 am - 9:00 pm",
+                "phoneNumber": "302-577-3390",
+                "rating": 4.2,
+                "currentPlayers": 0,
+                "averagePlayers": 12,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # HAWAII - Honolulu
+            {
+                "name": "Ala Moana Beach Park Courts",
+                "address": "1201 Ala Moana Blvd, Honolulu, HI 96814",
+                "latitude": 21.2897,
+                "longitude": -157.8439,
+                "hours": "5:00 am - 10:00 pm",
+                "phoneNumber": "808-768-4626",
+                "rating": 4.7,
+                "currentPlayers": 0,
+                "averagePlayers": 22,
+                "publicUsersAtCourt": [],
+                "image": None
+            },
+            
+            # ALASKA - Anchorage
+            {
+                "name": "Kincaid Park Courts",
+                "address": "9401 Raspberry Rd, Anchorage, AK 99502",
+                "latitude": 61.1561,
+                "longitude": -150.0646,
+                "hours": "6:00 am - 10:00 pm",
+                "phoneNumber": "907-343-6397",
+                "rating": 4.0,
+                "currentPlayers": 0,
+                "averagePlayers": 10,
+                "publicUsersAtCourt": [],
+                "image": None
             }
         ]
         await db.courts.insert_many(nationwide_courts)
-        logging.info("Initialized nationwide basketball courts database")
+        logging.info("Initialized nationwide basketball courts database covering all 50 states")
 
 # Authentication Routes
 @api_router.post("/auth/register")
