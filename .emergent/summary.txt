@@ -1,96 +1,78 @@
 <analysis>
-My analysis of the development trajectory shows a project that evolved significantly from its initial state. The work began by completing a pending task: implementing a pixel art avatar selection feature, which involved both frontend () and backend () modifications.
+The trajectory details an iterative development process for a full-stack mobile application named Ball House. The work began by addressing user requests for UI/UX enhancements, which evolved into a significant re-architecture of the app's navigation and features. Key changes included removing the Network and Messages tabs, restructuring the Profile tab with a nested Stack Navigator to preserve the tab bar on sub-screens, and centralizing the Find Courts tab.
 
-A major portion of the work involved iterative UI/UX redesigns based on user-provided images. This led to a complete visual overhaul of the application, moving from a dark theme to a clean, white-background aesthetic. Key screens like Find Courts, Media, Profile, and Messages were rewritten from scratch. The app's branding was also updated multiple times with new logos for the splash and login screens.
+Feature development was highly interactive. A major AI-powered Recommended Court feature was implemented, involving a new backend endpoint that integrated with OpenWeatherMap and a large language model. This feature was refined based on user feedback to adjust the UI presentation. The app's court database was also expanded from a local Houston-based list to a nationwide database of over 480 courts, with a script created to manage this data.
 
-Several technical challenges were encountered and resolved. A recurring  web compatibility issue forced the removal of the package and a refactor of the Media screen. Persistent ngrok tunnel disconnections required frequent restarts of the Expo service. A previously abandoned map feature was successfully re-implemented for mobile users on the Find Courts screen, using , while maintaining a list view for the web.
+The latter part of the trajectory focused on preparing the application for production. This involved configuring  and  for an iOS App Store submission, assisting the user with build commands and Xcode project generation, and troubleshooting a build failure related to the project's monorepo structure. The final task involved diagnosing and fixing critical deployment errors by modifying the backend Python server () to be compatible with a production Kubernetes environment using MongoDB Atlas. This included adding a health check endpoint, using environment variables for the database URL, and making the initial data seeding a non-blocking background task.
 
-Functionality was also refined. The court database was expanded, and the manual check-in/check-out system was replaced with a UI message indicating an automatic, proximity-based system.
-
-The trajectory concludes with the engineer setting up the project for deployment by creating an Expo Application Services (EAS) build configuration () and updating  in preparation for submission to the Apple App Store. The user's primary language is English, and all future responses should be in English.
+The user's primary language is English. All future responses should be in English.
 </analysis>
-
 <product_requirements>
-The objective is to build and refine a full-stack social networking mobile app for basketball players, named Ball House.
+The objective is to build, refine, and deploy Ball House, a full-stack social networking mobile app for basketball players.
 
 **Core Functionality:**
-*   **Authentication:** User registration and login, with a splash screen featuring the Ball House brand logo.
-*   **Court Finder:** A central tab that defaults to a  view on mobile, showing court locations with player counts. A list-based view serves as a fallback and is the default for web. The UI has a white background with modern, clean-designed court information cards.
-*   **Court Details:** A screen showing details for a selected court. The check-in/check-out buttons have been removed in favor of a new system where check-ins are automatic if the user's profile is Public and they are near a court.
-*   **Networking:** A tab to view My Network (friends) and Recent Players.
-*   **Media:** A tab with a white, two-column grid layout displaying YouTube videos categorized into NBA News, College News, and Trending Videos.
-*   **User Profile:** A screen allowing users to select a pixelated avatar, view their Network count, and toggle their public/private status.
-
-The final request was to prepare the application for submission to the Apple App Store.
+*   **Authentication:** User registration and login with a consistent, modern ball house. ai branded splash, login, and registration screen design.
+*   **Court Finder:** The central tab of the application. It features an AI-powered Recommended Court system that highlights the court most likely to be busy. On mobile, it defaults to a map view; on web, a list view. Court cards are designed to be clean, showing name, rating, address, hours, and average player count.
+*   **Media:** A tab displaying categorized YouTube videos in a grid layout. Users can like and share videos with other users within the app.
+*   **User Profile:** A screen allowing users to select a pixelated avatar and view their Network and Recent Players counts. These sections are clickable, leading to detail screens that show lists of users and allow sending friend requests or messages, all while keeping the main tab navigation visible.
+*   **Nationwide Coverage:** The app's database includes over 480 basketball courts across all 50 U.S. states.
+*   **Deployment:** The application must be deployable to a production Kubernetes environment that uses a MongoDB Atlas database.
 </product_requirements>
-
 <key_technical_concepts>
-- **Frameworks:** Expo (React Native) for frontend, FastAPI for backend.
-- **Database:** MongoDB.
-- **Routing:** File-based routing with .
-- **State Management:** React Context API for authentication ().
-- **Key Libraries:**
-    - : For the mobile-only court map view.
-    - : For generating user profile avatars.
-- **Build/Deployment:** Expo Application Services (EAS) configuration () for creating production builds.
-- **Platform Handling:** Conditional rendering () to show a map on mobile and a list on web.
+- **Frameworks:** Expo (React Native) for frontend, FastAPI (Python) for backend.
+- **Database:** MongoDB, with a transition from local instance to MongoDB Atlas for production.
+- **Routing:** File-based routing with , including nested Stack Navigators inside a Tab Navigator.
+- **Deployment:** Configuration for Expo Application Services (EAS) and code modifications for Kubernetes deployment (health checks, background tasks).
+- **AI/ML:** Integration with OpenAI via Emergent LLM Key and OpenWeatherMap API for a court recommendation engine.
+- **Platform Handling:**  for conditional rendering of map vs. list views.
 </key_technical_concepts>
-
 <code_architecture>
-The application uses a monorepo structure with a  Expo app and a  FastAPI server.
+The application uses a monorepo structure with a  Expo app and a  FastAPI server. The file-based routing of  dictates the app's navigation structure.
 
 
+- ****
+  - **Importance:** This is the core of the backend, defining all API endpoints, database logic, and business logic.
+  - **Summary of changes:** This file was heavily modified. A new AI prediction endpoint () was added. The initial hardcoded court list was replaced with a system that initializes from a larger dataset. Crucially, it was refactored for production deployment by:
+    1.  Reading  from an environment variable to support MongoDB Atlas.
+    2.  Adding a  endpoint for Kubernetes health checks.
+    3.  Moving the blocking database initialization to a non-blocking background task.
 
-- ** (Find Courts):**
-    - **Importance:** This is the main screen for discovering courts. It's the most complex component.
-    - **Changes:** This file was heavily modified. It now uses  to render a  for mobile and a  for web. The UI was completely overhauled to a white background with custom-designed cards. The logic for fetching and displaying courts remains, but the presentation layer is entirely new.
+- ****
+  - **Importance:** Defines the main bottom tab navigation for the app.
+  - **Summary of changes:** This file was edited multiple times to change the app's core navigation. The Network and Messages tabs were removed, and the remaining tabs were reordered to place Courts in the center. The icons and labels were updated accordingly.
 
-- **:**
-    - **Importance:** Displays categorized YouTube videos.
-    - **Changes:** Completely rewritten to a white-themed, two-column grid layout. The problematic  was removed. It now fetches and displays videos under three separate categories: NBA News, College News, and Trending Videos.
+- ** (Find Courts)**
+  - **Importance:** The main screen of the application.
+  - **Summary of changes:** This was one of the most frequently modified files. The court card UI was iteratively redesigned to remove icons (chevron, circular person icon) and badges (Empty, 0 players), and to add an Average Players count. Logic was added to fetch and display the Recommended Court with special highlighting (gold border and badge).
 
-- **:**
-    - **Importance:** User's profile screen.
-    - **Changes:** The avatar selection modal was implemented. Later, the entire screen was redesigned to a clean, white UI. The stats section was updated to remove Games and Wins and change Followers to Network, including a new API call to fetch the correct count.
+- ** (and its contents)**
+  - **Importance:** This directory represents a re-architecture of the user profile section.
+  - **Summary of changes:** Originally a single file (), this was converted into a nested Stack Navigator to allow navigation to Network and Recent Players lists while keeping the bottom tab bar visible.
+    -  defines the stack.
+    -  is the main profile screen, updated to show counts for Network/Recent Players.
+    - , , and  were created to handle the user list and detail views.
 
-- ** (Court Details):**
-    - **Importance:** Shows detailed information for a single court.
-    - **Changes:** UI was redesigned to match the new white theme. Manual check-in/out buttons were removed and replaced with a UI notice about automatic, proximity-based check-ins. The Call button was also removed.
-
-- **:**
-    - **Importance:** The FastAPI backend server defining all API endpoints and database interactions.
-    - **Changes:** The user model was updated to include an . The hardcoded list of courts was expanded to include LA Fitness and other gym locations.
-
-- ** & :**
-    - **Importance:** Configuration files for the Expo project and EAS builds.
-    - **Changes:**  was newly created.  was significantly updated with an  section containing , , and other properties required for an App Store submission.
-
-- ** & :**
-    - **Importance:** The first screens a user sees.
-    - **Changes:** These were updated multiple times to use different versions of the Ball House logo image provided by the user, establishing the app's brand identity on entry.
+- ****
+  - **Importance:** Configures the EAS build service for creating iOS/Android builds.
+  - **Summary of changes:** Created and then updated with the user's Apple Developer Team ID and ASC App ID. A  key was added to fix a build issue related to the monorepo structure.
 </code_architecture>
-
 <pending_tasks>
-- Execute the Expo Application Services (EAS) build and guide the user through the process of submitting the generated build to the Apple App Store.
-- Implement the frontend location-tracking logic to make the automatic check-in feature functional, as it currently only displays a static message.
+- **Implement Automatic Check-in:** The frontend logic for proximity-based automatic check-ins using background location and geofencing is still pending. Currently, it only shows a UI message.
+- **Fix AI Feature API Keys:** The AI court prediction feature is running on a fallback heuristic. It requires a correctly configured OpenAI API key (likely via OpenRouter for the Emergent key) and a valid OpenWeatherMap API key to be fully functional.
+- **Complete EAS Build & Submission:** The user still needs to run the build commands and submit the app to TestFlight and the App Store.
 </pending_tasks>
-
 <current_work>
-The most recent task was to prepare the application for submission to the Apple App Store. The user explicitly requested the creation of the EAS (Expo Application Services) build configuration.
+The most recent task was to diagnose and fix critical deployment failures reported by the user. The build logs indicated that while the container image was built successfully, the application failed to start correctly in the production environment, which uses Kubernetes and MongoDB Atlas.
 
-In response, the following actions were taken:
-1.  A new  file was created in . This file defines the build profiles (, ) for different environments.
-2.  The  file was significantly updated. A new  section was added, containing critical metadata for the App Store, such as:
-    *   : com.bhnetwork.ballhouse
-    *   : 1.0.0
-    *   : 
-    *   : Configuration for location permissions.
-    *   : for universal links.
-3.  A  file was created to provide the user with the command-line instructions needed to initiate the build process.
+The analysis concluded that the backend was not designed for a stateless, cloud-native environment. The following code-level fixes were implemented in  to address these issues:
 
-The work concluded right after these files were created and the Expo development server was restarted. The next logical step is to explain these changes and guide the user on how to use them.
+1.  **MongoDB Atlas Connection:** The code was modified to dynamically read the  from environment variables, allowing it to connect to the production MongoDB Atlas instance instead of a hardcoded local one.
+2.  **Non-Blocking Startup:** The  function, which seeds the database with hundreds of courts, was moved into a . This prevents the time-consuming operation from blocking the server's startup, which would otherwise cause Kubernetes to fail its readiness probes and terminate the pod.
+3.  **Health Check Endpoint:** A new, simple  endpoint was added. This endpoint returns a  response, which is a standard pattern for Kubernetes liveness and readiness probes to verify that the application is running.
+4.  **Idempotent Database Seeding:** The  function was updated to first check if courts already exist before attempting to insert them, making the startup process safe to run multiple times without creating duplicate data.
+
+These changes collectively make the backend application compatible with a production deployment pipeline.
 </current_work>
-
 <optional_next_step>
-I will now provide you with the build instructions and explain how to start the process of creating an installable app file for the Apple App Store, as per your last request.
+I have addressed the deployment-blocking issues in the backend code. I will now inform you of the fixes and recommend that you try running the deployment again.
 </optional_next_step>
