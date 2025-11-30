@@ -58,9 +58,16 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location to show nearby basketball courts.",
-          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location to show nearby basketball courts."
+          "locationAlwaysAndWhenInUsePermission": "Ball House needs background location access to automatically check you in when you arrive at a basketball court and count you as present.",
+          "locationWhenInUsePermission": "Ball House uses your location to show nearby basketball courts.",
+          "locationAlwaysPermission": "Ball House needs background location access to automatically check you in when you arrive at a basketball court.",
+          "isIosBackgroundLocationEnabled": true,
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true
         }
+      ],
+      [
+        "expo-task-manager"
       ]
     ],
     "experiments": {
