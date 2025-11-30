@@ -28,11 +28,19 @@ export default function ProfileScreen() {
   const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [networkCount, setNetworkCount] = useState(0);
   const [recentPlayersCount, setRecentPlayersCount] = useState(0);
+  const [autoCheckinEnabled, setAutoCheckinEnabled] = useState(false);
+  const [checkingPermissions, setCheckingPermissions] = useState(false);
 
   useEffect(() => {
     fetchNetworkCount();
     fetchRecentPlayersCount();
+    checkAutoCheckinStatus();
   }, []);
+
+  const checkAutoCheckinStatus = async () => {
+    const isActive = await GeofencingService.isGeofencingActive();
+    setAutoCheckinEnabled(isActive);
+  };
 
   const fetchNetworkCount = async () => {
     try {
