@@ -2,8 +2,8 @@ from fastapi import FastAPI, APIRouter, HTTPException, Header, status
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
-import logging
 import sys
+import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, EmailStr
 from typing import List, Optional
@@ -13,6 +13,7 @@ from passlib.context import CryptContext
 import jwt
 from bson import ObjectId
 import httpx
+import traceback
 
 # Configure logging FIRST before any other operations
 logging.basicConfig(
