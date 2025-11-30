@@ -211,7 +211,10 @@ export default function ProfileScreen() {
         {
           text: 'Logout',
           style: 'destructive',
-          onPress: () => {
+          onPress: async () => {
+            // Stop geofencing and clear state
+            await GeofencingService.stopGeofencing();
+            await GeofencingService.clearState();
             logout();
             router.replace('/auth/login');
           },
