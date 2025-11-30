@@ -39,21 +39,29 @@ except Exception as e:
 mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
 db_name = os.environ.get('DB_NAME', 'basketball_app')
 
-logger.info(f"Connecting to MongoDB: {mongo_url[:20]}...")
+logger.info(f"Connecting to MongoDB: {mongo_url[:30]}...")
 
 # Configure MongoDB client for production (Atlas-compatible with longer timeouts)
-client = AsyncIOMotorClient(
-    mongo_url,
-    serverSelectionTimeoutMS=30000,  # 30 second timeout for Atlas
-    connectTimeoutMS=30000,
-    socketTimeoutMS=30000,
-    maxPoolSize=50,
-    minPoolSize=10,
-    retryWrites=True,
-    w='majority'
-)
-db = client[db_name]
-logger.info("MongoDB client initialized")
+try:
+    client = AsyncIOMotorClient(
+        mongo_url,
+        serverSelectionTimeoutMS=30000,  # 30 second timeout for Atlas
+        connectTimeoutMS=30000,
+        socketTimeoutMS=30000,
+        maxPoolSize=50,
+        minPoolSize=10,
+        retryWrites=True,
+        w='majority'
+    )
+    db = client[db_name]
+    logger.info("✓ MongoDB client initialized successfully")
+except Exception as e:
+    logger.error(f"✗ Failed to initialize MongoDB client: {str(e)}")
+    logger.warning("Application will continue to start, but database operations will fail")
+    # Create a dummy client to prevent import errors
+    # The actual connection will be tested in the startup event
+    client = AsyncIOMotorClient(mongo_url)
+    db = client[db_name]
 
 # Create the main app without a prefix
 app = FastAPI()
