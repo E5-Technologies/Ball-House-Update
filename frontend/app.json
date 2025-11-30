@@ -15,6 +15,8 @@
       "buildNumber": "1",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Ball House uses your location to show nearby basketball courts and count you as present when you're at a court.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Ball House needs background location access to automatically check you in when you arrive at a basketball court and count you as present.",
+        "NSLocationAlwaysUsageDescription": "Ball House needs background location access to automatically check you in when you arrive at a basketball court.",
         "NSCameraUsageDescription": "Ball House needs camera access to update your profile picture.",
         "NSPhotoLibraryUsageDescription": "Ball House needs photo library access to select profile pictures.",
         "UIBackgroundModes": ["location"]
