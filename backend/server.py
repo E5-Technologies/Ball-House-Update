@@ -2013,15 +2013,21 @@ async def startup_event():
     - Database initialization happens in background
     - Graceful error handling to prevent crash loops
     """
-    logger.info("=== Ball House API Startup ===")
-    logger.info(f"Environment: {os.environ.get('ENVIRONMENT', 'production')}")
-    logger.info(f"Database: {db_name}")
-    
     try:
-        # Quick connection test with reasonable timeout
-        logger.info("Testing database connection...")
-        await db.command('ping', maxTimeMS=10000)
-        logger.info("✓ Database connection successful")
+        logger.info("=== Ball House API Startup ===")
+        logger.info(f"Python version: {sys.version}")
+        logger.info(f"Environment: {os.environ.get('ENVIRONMENT', 'production')}")
+        logger.info(f"Database: {db_name}")
+        logger.info(f"MongoDB URL: {mongo_url[:30]}...")
+        
+        try:
+            # Quick connection test with reasonable timeout
+            logger.info("Testing database connection...")
+            await db.command('ping', maxTimeMS=10000)
+            logger.info("✓ Database connection successful")
+        except Exception as db_error:
+            logger.error(f"✗ Database connection failed: {str(db_error)}")
+            logger.warning("Continuing startup - app will work but database operations will fail")
         
         # Initialize courts in background (non-blocking)
         import asyncio
@@ -2029,11 +2035,17 @@ async def startup_event():
         asyncio.create_task(initialize_courts_background())
         
         logger.info("=== Startup complete - ready to accept traffic ===")
+        logger.info(f"✓ Application is ready on port 8001")
+        logger.info(f"✓ Health check: GET /health")
+        logger.info(f"✓ Readiness check: GET /ready")
         
     except Exception as e:
-        logger.error(f"Startup error: {str(e)}")
-        logger.warning("Continuing startup despite error - readiness probe will retry connection")
-        # Don't raise - let readiness probe handle retry logic
+        logger.critical(f"CRITICAL STARTUP ERROR: {str(e)}")
+        logger.critical(f"Error type: {type(e).__name__}")
+        import traceback
+        logger.critical(f"Traceback: {traceback.format_exc()}")
+        # Don't raise - let the application start anyway
+        # Readiness probe will catch the issue
 
 async def initialize_courts_background():
     """
