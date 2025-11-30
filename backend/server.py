@@ -1940,67 +1940,91 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
-
-# Health check endpoint for Kubernetes probes
+# Health check endpoints for Kubernetes probes
 @app.get("/health")
 async def health_check():
-    """Health check endpoint for liveness probe"""
-    return {"status": "healthy", "service": "ball-house-api"}
+    """
+    Liveness probe - Always returns healthy if the app is running.
+    This endpoint should not check external dependencies.
+    """
+    return {
+        "status": "healthy",
+        "service": "ball-house-api",
+        "version": "1.0.0"
+    }
 
 @app.get("/ready")
 async def readiness_check():
-    """Readiness check endpoint - verifies database connection"""
+    """
+    Readiness probe - Verifies database connection before accepting traffic.
+    Kubernetes will not route traffic until this returns 200.
+    """
     try:
-        # Ping database to check connection
-        await db.command('ping')
-        return {"status": "ready", "database": "connected"}
+        # Ping database to check connection with timeout
+        await db.command('ping', maxTimeMS=5000)
+        return {
+            "status": "ready",
+            "database": "connected",
+            "service": "ball-house-api"
+        }
     except Exception as e:
-        logging.error(f"Readiness check failed: {str(e)}")
-        raise HTTPException(status_code=503, detail="Database not ready")
+        logger.error(f"Readiness check failed: {str(e)}")
+        raise HTTPException(
+            status_code=503,
+            detail=f"Service not ready: {str(e)}"
+        )
 
 @app.on_event("startup")
 async def startup_event():
     """
-    Non-blocking startup - initialize database in background
-    This prevents deployment timeouts in Kubernetes
+    Non-blocking startup optimized for Kubernetes deployment
+    - Minimal blocking operations to pass readiness probes quickly
+    - Database initialization happens in background
+    - Graceful error handling to prevent crash loops
     """
+    logger.info("=== Ball House API Startup ===")
+    logger.info(f"Environment: {os.environ.get('ENVIRONMENT', 'production')}")
+    logger.info(f"Database: {db_name}")
+    
     try:
-        # Log startup
-        logging.info("Ball House API starting up...")
-        
-        # Verify database connection
-        await db.command('ping')
-        logging.info("Database connection verified")
+        # Quick connection test with reasonable timeout
+        logger.info("Testing database connection...")
+        await db.command('ping', maxTimeMS=10000)
+        logger.info("✓ Database connection successful")
         
         # Initialize courts in background (non-blocking)
         import asyncio
+        logger.info("Starting background courts initialization...")
         asyncio.create_task(initialize_courts_background())
         
-        logging.info("Startup complete - courts initialization running in background")
+        logger.info("=== Startup complete - ready to accept traffic ===")
+        
     except Exception as e:
-        logging.error(f"Startup error: {str(e)}")
-        # Don't fail startup - let health checks handle it
-        pass
+        logger.error(f"Startup error: {str(e)}")
+        logger.warning("Continuing startup despite error - readiness probe will retry connection")
+        # Don't raise - let readiness probe handle retry logic
 
 async def initialize_courts_background():
-    """Background task to initialize courts without blocking startup"""
+    """
+    Background task to initialize courts database
+    - Runs asynchronously to not block startup
+    - Idempotent - safe to run multiple times
+    - Logs errors but doesn't crash the application
+    """
     try:
+        logger.info("Background task: Starting courts initialization")
         await initialize_courts()
-        logging.info("Background courts initialization completed")
+        logger.info("✓ Background task: Courts initialization completed successfully")
     except Exception as e:
-        logging.error(f"Background courts initialization error: {str(e)}")
+        logger.error(f"✗ Background task: Courts initialization failed - {str(e)}")
+        logger.info("Application will continue to run without pre-populated courts")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
     """Clean shutdown of database connection"""
     try:
+        logger.info("Shutting down database connection...")
         client.close()
-        logging.info("Database connection closed")
+        logger.info("✓ Database connection closed cleanly")
     except Exception as e:
-        logging.error(f"Shutdown error: {str(e)}")
+        logger.error(f"Shutdown error: {str(e)}")
