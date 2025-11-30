@@ -342,6 +342,42 @@ frontend:
         - working: "NA"
           agent: "main"
           comment: "Implemented avatar selection modal with 20 diverse pixelated character options using DiceBear API. Features include: Modal with slide animation, 4-column grid layout of avatars, diverse representation (multiple races, genders, skin tones, styles), touch-friendly selection (44x44+ touch targets), integration with backend profile update API. Changed avatar button icon from camera to image-outline to indicate avatar selection instead of photo upload."
+  
+  - task: "Automatic Check-in with Geofencing"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/services/GeofencingService.ts, /app/frontend/app/(tabs)/profile/index.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Implemented comprehensive automatic check-in system with background location tracking and geofencing. Features: GeofencingService class with background location tracking using expo-task-manager, 75-meter geofence radius around each court (suitable for basketball court detection), automatic check-in when entering geofence and check-out when leaving, Haversine formula for accurate distance calculation, 30-second throttling to prevent excessive API calls, persistent state storage in AsyncStorage, proper iOS and Android permissions in app.json (foreground + background location), toggle switch in Profile screen to enable/disable automatic check-in, permission request flow with user-friendly alerts, automatic geofencing stop on logout with state cleanup, foreground service notification on Android showing 'Ball House - Tracking your location for automatic court check-ins'"
+
+  - task: "AI Court Recommendation Feature"
+    implemented: true
+    working: true
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "AI-powered court recommendation already implemented. Verified API keys are properly configured in backend/.env: OPENWEATHER_API_KEY and EMERGENT_LLM_KEY. The /api/courts/predict/recommended endpoint uses OpenWeatherMap for real-time weather data and OpenAI GPT-4 to analyze multiple factors (weather, time of day, day of week, current players, average players, social media activity) to predict the most active basketball court. Returns court name, confidence score, and reasoning."
+
+  - task: "EAS Build Configuration"
+    implemented: true
+    working: true
+    file: "/app/frontend/eas.json, /app/frontend/app.json, /app/EAS_BUILD_GUIDE.md"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Configured EAS build system for iOS App Store submission. Updated eas.json with projectDir: 'frontend' to handle monorepo structure, Apple Developer credentials (Team ID: 9DVMM7U798, ASC App ID: 6755755781), build profiles for development/preview/production. Updated app.json with all necessary iOS and Android permissions for background location, camera, photo library. Added comprehensive background location permission descriptions. Created detailed EAS_BUILD_GUIDE.md with step-by-step instructions for building and submitting to App Store, including pre-submission checklist, required assets, and troubleshooting."
 
 metadata:
   created_by: "main_agent"
