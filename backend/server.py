@@ -1940,6 +1940,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Root endpoint
+@app.get("/")
+async def root():
+    """Root endpoint - API information"""
+    return {
+        "service": "Ball House API",
+        "version": "1.0.0",
+        "status": "running",
+        "endpoints": {
+            "health": "/health",
+            "readiness": "/ready",
+            "api": "/api",
+            "docs": "/docs"
+        }
+    }
+
 # Health check endpoints for Kubernetes probes
 @app.get("/health")
 async def health_check():
