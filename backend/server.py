@@ -158,10 +158,21 @@ class FriendRequestResponse(BaseModel):
     status: str
     message: str
 
-# Initialize Houston courts data
+# Initialize courts data (production-safe, idempotent)
 async def initialize_courts():
-    count = await db.courts.count_documents({})
-    if count == 0:
+    """
+    Initialize courts database - safe for production deployments
+    - Idempotent: Won't duplicate data if already exists
+    - Graceful error handling for Atlas constraints
+    - Batch insert with error recovery
+    """
+    try:
+        count = await db.courts.count_documents({})
+        if count > 0:
+            logging.info(f"Courts already initialized ({count} courts found)")
+            return
+        
+        logging.info("Initializing courts database...")
         # Nationwide basketball courts covering all 50 US states
         nationwide_courts = [
             # TEXAS - Houston
