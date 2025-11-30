@@ -387,8 +387,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Pixelated Avatar Selection"
-    - "Pixelated Avatar Selection UI"
+    - "Automatic Check-in with Geofencing"
+    - "AI Court Recommendation Feature"
+    - "EAS Build Configuration"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
