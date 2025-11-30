@@ -1,9 +1,9 @@
 from fastapi import FastAPI, APIRouter, HTTPException, Header, status
-from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
+import sys
 from pathlib import Path
 from pydantic import BaseModel, Field, EmailStr
 from typing import List, Optional
@@ -14,25 +14,46 @@ import jwt
 from bson import ObjectId
 import httpx
 
-ROOT_DIR = Path(__file__).parent
-load_dotenv(ROOT_DIR / '.env')
+# Configure logging FIRST before any other operations
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
+logger = logging.getLogger(__name__)
 
-# MongoDB connection with production-ready settings
+# Load environment variables (handle missing .env gracefully in containers)
+try:
+    from dotenv import load_dotenv
+    ROOT_DIR = Path(__file__).parent
+    env_path = ROOT_DIR / '.env'
+    if env_path.exists():
+        load_dotenv(env_path)
+        logger.info("Loaded .env file")
+    else:
+        logger.info("No .env file found, using environment variables")
+except Exception as e:
+    logger.warning(f"Could not load .env file: {e}")
+
+# MongoDB connection with production-ready settings for Atlas
 mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
 db_name = os.environ.get('DB_NAME', 'basketball_app')
 
-# Configure MongoDB client for production (Atlas-compatible)
+logger.info(f"Connecting to MongoDB: {mongo_url[:20]}...")
+
+# Configure MongoDB client for production (Atlas-compatible with longer timeouts)
 client = AsyncIOMotorClient(
     mongo_url,
-    serverSelectionTimeoutMS=5000,  # 5 second timeout
-    connectTimeoutMS=10000,
-    socketTimeoutMS=10000,
+    serverSelectionTimeoutMS=30000,  # 30 second timeout for Atlas
+    connectTimeoutMS=30000,
+    socketTimeoutMS=30000,
     maxPoolSize=50,
     minPoolSize=10,
     retryWrites=True,
     w='majority'
 )
 db = client[db_name]
+logger.info("MongoDB client initialized")
 
 # Create the main app without a prefix
 app = FastAPI()
