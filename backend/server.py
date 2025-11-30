@@ -63,8 +63,15 @@ except Exception as e:
     client = AsyncIOMotorClient(mongo_url)
     db = client[db_name]
 
-# Create the main app without a prefix
-app = FastAPI()
+# Create the main app with metadata for better error messages
+app = FastAPI(
+    title="Ball House API",
+    description="Basketball court finder and social networking API",
+    version="1.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json"
+)
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
