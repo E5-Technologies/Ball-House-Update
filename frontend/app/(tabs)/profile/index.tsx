@@ -294,6 +294,34 @@ export default function ProfileScreen() {
             />
           </View>
 
+          {/* Automatic Check-in Toggle */}
+          <View style={styles.menuItem}>
+            <View style={styles.menuItemLeft}>
+              <View style={styles.iconCircle}>
+                <Ionicons 
+                  name={autoCheckinEnabled ? 'location' : 'location-outline'} 
+                  size={20} 
+                  color="#000" 
+                />
+              </View>
+              <View style={styles.menuTextContainer}>
+                <Text style={styles.menuTitle}>Automatic Check-in</Text>
+                <Text style={styles.menuSubtitle}>
+                  {autoCheckinEnabled 
+                    ? 'Auto check-in when near courts' 
+                    : 'Manually check-in at courts'}
+                </Text>
+              </View>
+            </View>
+            <Switch
+              value={autoCheckinEnabled}
+              onValueChange={handleToggleAutoCheckin}
+              disabled={checkingPermissions}
+              trackColor={{ false: '#D1D1D1', true: Colors.primary }}
+              thumbColor="#FFF"
+            />
+          </View>
+
           {/* Edit Profile */}
           <TouchableOpacity style={styles.menuItem}>
             <View style={styles.menuItemLeft}>
