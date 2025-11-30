@@ -2061,14 +2061,3 @@ async def shutdown_db_client():
         logger.error(f"Shutdown error: {str(e)}")
 
 # Entry point for direct execution (fallback, shouldn't be needed with uvicorn)
-if __name__ == "__main__":
-    import uvicorn
-    logger.info("Starting Ball House API directly via __main__")
-    logger.info("Note: This should normally be started via: uvicorn server:app")
-    uvicorn.run(
-        "server:app",
-        host="0.0.0.0",
-        port=8001,
-        log_level="info",
-        access_log=True
-    )
