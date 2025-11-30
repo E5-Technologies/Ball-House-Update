@@ -1189,6 +1189,9 @@ async def initialize_courts():
         ]
         await db.courts.insert_many(nationwide_courts)
         logging.info("Initialized nationwide basketball courts database covering all 50 states")
+    except Exception as e:
+        logging.error(f"Error initializing courts: {e}")
+        # Continue anyway - app can function without pre-populated courts
 
 # Authentication Routes
 @api_router.post("/auth/register")
