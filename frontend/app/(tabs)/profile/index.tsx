@@ -146,6 +146,62 @@ export default function ProfileScreen() {
     }
   };
 
+  const handleToggleAutoCheckin = async () => {
+    if (autoCheckinEnabled) {
+      // Disable automatic check-in
+      await GeofencingService.stopGeofencing();
+      setAutoCheckinEnabled(false);
+      Alert.alert(
+        'Automatic Check-in Disabled',
+        'You will no longer be automatically checked in when you arrive at basketball courts.'
+      );
+    } else {
+      // Enable automatic check-in
+      setCheckingPermissions(true);
+      
+      // Check permissions first
+      const permissions = await GeofencingService.checkPermissions();
+      
+      if (!permissions.foreground || !permissions.background) {
+        setCheckingPermissions(false);
+        Alert.alert(
+          'Location Permission Required',
+          'Ball House needs background location permission to automatically check you in when you arrive at a basketball court. Please grant "Allow While Using App" then "Change to Always Allow" in the next screens.',
+          [
+            { text: 'Cancel', style: 'cancel' },
+            {
+              text: 'Enable',
+              onPress: async () => {
+                const success = await GeofencingService.startGeofencing();
+                setAutoCheckinEnabled(success);
+                setCheckingPermissions(false);
+                
+                if (!success) {
+                  Alert.alert(
+                    'Permission Denied',
+                    'Background location permission is required for automatic check-ins. You can enable it later in your device settings.'
+                  );
+                }
+              },
+            },
+          ]
+        );
+      } else {
+        // Permissions already granted, start geofencing
+        const success = await GeofencingService.startGeofencing();
+        setAutoCheckinEnabled(success);
+        setCheckingPermissions(false);
+        
+        if (success) {
+          Alert.alert(
+            'Automatic Check-in Enabled',
+            'You will be automatically checked in when you arrive within 75 meters of any basketball court. Make sure your profile is set to Public to be counted.'
+          );
+        }
+      }
+    }
+  };
+
   const handleLogout = () => {
     Alert.alert(
       'Logout',
