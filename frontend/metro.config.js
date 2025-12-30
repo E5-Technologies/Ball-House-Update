@@ -22,11 +22,16 @@ config.cacheStores = [
 // Reduce the number of workers to decrease resource usage
 config.maxWorkers = 2;
 
-// Resolve react-native-maps to empty module for web
+// Create an empty module path for react-native-maps
+const emptyModulePath = path.join(__dirname, 'empty-module.js');
+
+// Resolve react-native-maps to empty module for all platforms
+// This is needed because react-native-maps requires native code that's not available in Expo Go
 config.resolver.resolveRequest = (context, moduleName, platform) => {
-  if (platform === 'web' && moduleName === 'react-native-maps') {
+  // Block react-native-maps on all platforms (it crashes Expo Go)
+  if (moduleName === 'react-native-maps' || moduleName.startsWith('react-native-maps/')) {
     return {
-      filePath: path.join(__dirname, 'empty-module.js'),
+      filePath: emptyModulePath,
       type: 'sourceFile',
     };
   }
