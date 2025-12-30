@@ -258,119 +258,18 @@ export default function CourtsScreen() {
     </View>
   );
 
-  // Map view for mobile only
+  // Map view - shows placeholder since react-native-maps requires native build
   const renderMapView = () => {
-    // MapView doesn't work on web, show a message instead
-    if (isWeb) {
-      return (
-        <View style={styles.container}>
-          {renderToggle()}
-          <View style={styles.webMapPlaceholder}>
-            <Ionicons name="map-outline" size={64} color="#CCC" />
-            <Text style={styles.webMapText}>Map view is available in the mobile app</Text>
-            <Text style={styles.webMapSubtext}>Use the List view to browse courts</Text>
-          </View>
-        </View>
-      );
-    }
-
     return (
       <View style={styles.container}>
         {renderToggle()}
-        <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 29.7604,
-          longitude: -95.3698,
-          latitudeDelta: 0.3,
-          longitudeDelta: 0.3,
-        }}
-        showsUserLocation
-        showsMyLocationButton
-      >
-        {/* Court Markers */}
-        {filteredCourts.map((court) => (
-          <Marker
-            key={court.id}
-            coordinate={{
-              latitude: court.latitude,
-              longitude: court.longitude,
-            }}
-            onPress={() => setSelectedCourt(court)}
-            title={court.name}
-            description={`${court.currentPlayers} players`}
-          >
-            <View style={styles.markerContainer}>
-              <View style={styles.mapPlayerBadge}>
-                <Text style={styles.playerBadgeText}>{court.currentPlayers}</Text>
-              </View>
-            </View>
-          </Marker>
-        ))}
-      </MapView>
-
-      {/* Bottom Detail Card */}
-      {selectedCourt && (
-        <View style={styles.bottomCard}>
-          <View style={styles.cardHeader}>
-            <View style={styles.cardLeft}>
-              <View style={styles.courtImageContainer}>
-                <Ionicons name="basketball" size={32} color={Colors.primary} />
-              </View>
-              <View style={styles.cardInfo}>
-                <Text style={styles.cardTitle}>{selectedCourt.name}</Text>
-                <View style={styles.ratingRow}>
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Ionicons
-                      key={star}
-                      name={star <= selectedCourt.rating ? 'star' : 'star-outline'}
-                      size={14}
-                      color="#FFD700"
-                    />
-                  ))}
-                </View>
-              </View>
-            </View>
-            <TouchableOpacity
-              style={styles.closeCardButton}
-              onPress={() => setSelectedCourt(null)}
-            >
-              <Ionicons name="close" size={24} color="#666" />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.cardBody}>
-            <View style={styles.cardRow}>
-              <Ionicons name="location-outline" size={16} color="#666" />
-              <Text style={styles.cardText}>{selectedCourt.address}</Text>
-            </View>
-            <View style={styles.cardRow}>
-              <Ionicons name="call-outline" size={16} color="#666" />
-              <Text style={styles.cardText}>{selectedCourt.phoneNumber}</Text>
-            </View>
-            <View style={styles.cardRow}>
-              <Ionicons name="time-outline" size={16} color="#666" />
-              <Text style={styles.cardText}>{selectedCourt.hours}</Text>
-            </View>
-          </View>
-
-          <View style={styles.cardFooter}>
-            <View style={styles.playerCountCard}>
-              <Text style={styles.playerCountNumber}>{selectedCourt.currentPlayers}</Text>
-              <Text style={styles.playerCountLabel}># of players</Text>
-            </View>
-            <TouchableOpacity
-              style={styles.viewDetailsButton}
-              onPress={() => router.push(`/court/${selectedCourt.id}`)}
-            >
-              <Text style={styles.viewDetailsText}>View Details</Text>
-              <Ionicons name="arrow-forward" size={20} color="#FFF" />
-            </TouchableOpacity>
-          </View>
+        <View style={styles.webMapPlaceholder}>
+          <Ionicons name="map-outline" size={64} color="#CCC" />
+          <Text style={styles.webMapText}>Map view requires a native build</Text>
+          <Text style={styles.webMapSubtext}>Use the List view to browse courts, or build with EAS for map support</Text>
         </View>
-      )}
-    </View>
-  );
+      </View>
+    );
   };
 
   // List view for web
