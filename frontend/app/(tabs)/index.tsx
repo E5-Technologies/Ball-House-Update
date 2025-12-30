@@ -369,39 +369,12 @@ export default function CourtsScreen() {
       )}
     </View>
   );
+  };
 
   // List view for web
   const renderListView = () => (
     <View style={styles.container}>
-      {/* Toggle between List and Map */}
-      <View style={styles.toggleContainer}>
-        <TouchableOpacity
-          style={[styles.toggleButton, !showMap && styles.toggleButtonActive]}
-          onPress={() => setShowMap(false)}
-        >
-          <Ionicons 
-            name="list" 
-            size={20} 
-            color={!showMap ? '#FFF' : '#666'} 
-          />
-          <Text style={[styles.toggleText, !showMap && styles.toggleTextActive]}>
-            List
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.toggleButton, showMap && styles.toggleButtonActive]}
-          onPress={() => setShowMap(true)}
-        >
-          <Ionicons 
-            name="map" 
-            size={20} 
-            color={showMap ? '#FFF' : '#666'} 
-          />
-          <Text style={[styles.toggleText, showMap && styles.toggleTextActive]}>
-            Map
-          </Text>
-        </TouchableOpacity>
-      </View>
+      {renderToggle()}
 
       <FlatList
         data={filteredCourts}
