@@ -188,6 +188,43 @@ class ConversationResponse(BaseModel):
     timestamp: datetime
     unreadCount: int
 
+# Group Chat Models
+class GroupCreate(BaseModel):
+    name: str
+    description: Optional[str] = None
+    memberIds: List[str]  # List of user IDs to add to the group
+
+class GroupResponse(BaseModel):
+    id: str
+    name: str
+    description: Optional[str]
+    creatorId: str
+    members: List[dict]  # List of user objects with id, username, profilePic
+    createdAt: datetime
+    lastMessage: Optional[str] = None
+    lastMessageTime: Optional[datetime] = None
+
+class GroupMessageSend(BaseModel):
+    message: Optional[str] = None
+    mediaUrl: Optional[str] = None
+    courtId: Optional[str] = None  # For sharing court information
+
+class GroupMessageResponse(BaseModel):
+    id: str
+    groupId: str
+    senderId: str
+    senderName: str
+    senderProfilePic: Optional[str]
+    message: Optional[str]
+    mediaUrl: Optional[str]
+    courtId: Optional[str]
+    courtName: Optional[str]  # Populated if courtId is provided
+    timestamp: datetime
+
+class AddMemberRequest(BaseModel):
+    userId: str
+
+
 class FriendRequest(BaseModel):
     toUserId: str
 
