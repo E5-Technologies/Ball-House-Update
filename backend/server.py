@@ -1623,6 +1623,293 @@ async def send_message(message: MessageSend, authorization: Optional[str] = Head
     }
 
 # Networking Routes
+
+# Group Chat Routes
+
+@api_router.post("/groups")
+async def create_group(group_data: GroupCreate, authorization: Optional[str] = Header(None)):
+    """Create a new group chat"""
+    user = await get_current_user(authorization)
+    user_id = user["_id"]
+    
+    # Validate member IDs
+    valid_members = []
+    for member_id in group_data.memberIds:
+        try:
+            member = await db.users.find_one({"_id": ObjectId(member_id)})
+            if member:
+                valid_members.append(member_id)
+        except:
+            continue
+    
+    # Add creator to members if not already included
+    if user_id not in valid_members:
+        valid_members.append(user_id)
+    
+    # Create group
+    group = {
+        "name": group_data.name,
+        "description": group_data.description,
+        "creatorId": user_id,
+        "members": valid_members,
+        "createdAt": datetime.utcnow()
+    }
+    
+    result = await db.groups.insert_one(group)
+    group["_id"] = str(result.inserted_id)
+    
+    # Get member details
+    member_details = []
+    for member_id in valid_members:
+        member = await db.users.find_one({"_id": ObjectId(member_id)})
+        if member:
+            member_details.append({
+                "id": str(member["_id"]),
+                "username": member["username"],
+                "profilePic": member.get("profilePic"),
+                "avatarUrl": member.get("avatarUrl")
+            })
+    
+    return {
+        "id": group["_id"],
+        "name": group["name"],
+        "description": group["description"],
+        "creatorId": user_id,
+        "members": member_details,
+        "createdAt": group["createdAt"]
+    }
+
+@api_router.get("/groups")
+async def get_user_groups(authorization: Optional[str] = Header(None)):
+    """Get all groups the user is a member of"""
+    user = await get_current_user(authorization)
+    user_id = user["_id"]
+    
+    # Find all groups where user is a member
+    groups = await db.groups.find({"members": user_id}).sort("createdAt", -1).to_list(100)
+    
+    result = []
+    for group in groups:
+        group_id = str(group["_id"])
+        
+        # Get last message for this group
+        last_message = await db.group_messages.find_one(
+            {"groupId": group_id},
+            sort=[("timestamp", -1)]
+        )
+        
+        # Get member details
+        member_details = []
+        for member_id in group["members"]:
+            member = await db.users.find_one({"_id": ObjectId(member_id)})
+            if member:
+                member_details.append({
+                    "id": str(member["_id"]),
+                    "username": member["username"],
+                    "profilePic": member.get("profilePic"),
+                    "avatarUrl": member.get("avatarUrl")
+                })
+        
+        result.append({
+            "id": group_id,
+            "name": group["name"],
+            "description": group.get("description"),
+            "creatorId": group["creatorId"],
+            "members": member_details,
+            "createdAt": group["createdAt"],
+            "lastMessage": last_message.get("message") if last_message else None,
+            "lastMessageTime": last_message.get("timestamp") if last_message else None
+        })
+    
+    return result
+
+@api_router.get("/groups/{group_id}")
+async def get_group_details(group_id: str, authorization: Optional[str] = Header(None)):
+    """Get details of a specific group"""
+    user = await get_current_user(authorization)
+    user_id = user["_id"]
+    
+    # Get group
+    group = await db.groups.find_one({"_id": ObjectId(group_id)})
+    if not group:
+        raise HTTPException(status_code=404, detail="Group not found")
+    
+    # Check if user is a member
+    if user_id not in group["members"]:
+        raise HTTPException(status_code=403, detail="You are not a member of this group")
+    
+    # Get member details
+    member_details = []
+    for member_id in group["members"]:
+        member = await db.users.find_one({"_id": ObjectId(member_id)})
+        if member:
+            member_details.append({
+                "id": str(member["_id"]),
+                "username": member["username"],
+                "profilePic": member.get("profilePic"),
+                "avatarUrl": member.get("avatarUrl")
+            })
+    
+    return {
+        "id": str(group["_id"]),
+        "name": group["name"],
+        "description": group.get("description"),
+        "creatorId": group["creatorId"],
+        "members": member_details,
+        "createdAt": group["createdAt"]
+    }
+
+@api_router.post("/groups/{group_id}/members")
+async def add_group_member(group_id: str, member_request: AddMemberRequest, authorization: Optional[str] = Header(None)):
+    """Add a member to the group"""
+    user = await get_current_user(authorization)
+    user_id = user["_id"]
+    
+    # Get group
+    group = await db.groups.find_one({"_id": ObjectId(group_id)})
+    if not group:
+        raise HTTPException(status_code=404, detail="Group not found")
+    
+    # Check if user is creator or member
+    if user_id != group["creatorId"] and user_id not in group["members"]:
+        raise HTTPException(status_code=403, detail="Only group members can add new members")
+    
+    # Check if new member exists
+    new_member = await db.users.find_one({"_id": ObjectId(member_request.userId)})
+    if not new_member:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Add member
+    if member_request.userId not in group["members"]:
+        await db.groups.update_one(
+            {"_id": ObjectId(group_id)},
+            {"$push": {"members": member_request.userId}}
+        )
+    
+    return {"success": True, "message": "Member added successfully"}
+
+@api_router.delete("/groups/{group_id}/members/{member_id}")
+async def remove_group_member(group_id: str, member_id: str, authorization: Optional[str] = Header(None)):
+    """Remove a member from the group"""
+    user = await get_current_user(authorization)
+    user_id = user["_id"]
+    
+    # Get group
+    group = await db.groups.find_one({"_id": ObjectId(group_id)})
+    if not group:
+        raise HTTPException(status_code=404, detail="Group not found")
+    
+    # Only creator can remove members (or members can remove themselves)
+    if user_id != group["creatorId"] and user_id != member_id:
+        raise HTTPException(status_code=403, detail="Only the group creator can remove members")
+    
+    # Can't remove creator
+    if member_id == group["creatorId"]:
+        raise HTTPException(status_code=400, detail="Cannot remove group creator")
+    
+    # Remove member
+    await db.groups.update_one(
+        {"_id": ObjectId(group_id)},
+        {"$pull": {"members": member_id}}
+    )
+    
+    return {"success": True, "message": "Member removed successfully"}
+
+@api_router.post("/groups/{group_id}/messages")
+async def send_group_message(group_id: str, message_data: GroupMessageSend, authorization: Optional[str] = Header(None)):
+    """Send a message to a group"""
+    user = await get_current_user(authorization)
+    user_id = user["_id"]
+    
+    # Get group
+    group = await db.groups.find_one({"_id": ObjectId(group_id)})
+    if not group:
+        raise HTTPException(status_code=404, detail="Group not found")
+    
+    # Check if user is a member
+    if user_id not in group["members"]:
+        raise HTTPException(status_code=403, detail="You are not a member of this group")
+    
+    # Prepare message
+    group_message = {
+        "groupId": group_id,
+        "senderId": user_id,
+        "senderName": user["username"],
+        "message": message_data.message,
+        "mediaUrl": message_data.mediaUrl,
+        "courtId": message_data.courtId,
+        "timestamp": datetime.utcnow()
+    }
+    
+    result = await db.group_messages.insert_one(group_message)
+    group_message["_id"] = str(result.inserted_id)
+    
+    # Get court name if courtId provided
+    court_name = None
+    if message_data.courtId:
+        court = await db.courts.find_one({"_id": ObjectId(message_data.courtId)})
+        if court:
+            court_name = court["name"]
+    
+    return {
+        "id": group_message["_id"],
+        "groupId": group_id,
+        "senderId": user_id,
+        "senderName": user["username"],
+        "senderProfilePic": user.get("profilePic"),
+        "message": message_data.message,
+        "mediaUrl": message_data.mediaUrl,
+        "courtId": message_data.courtId,
+        "courtName": court_name,
+        "timestamp": group_message["timestamp"]
+    }
+
+@api_router.get("/groups/{group_id}/messages")
+async def get_group_messages(group_id: str, authorization: Optional[str] = Header(None)):
+    """Get all messages in a group"""
+    user = await get_current_user(authorization)
+    user_id = user["_id"]
+    
+    # Get group
+    group = await db.groups.find_one({"_id": ObjectId(group_id)})
+    if not group:
+        raise HTTPException(status_code=404, detail="Group not found")
+    
+    # Check if user is a member
+    if user_id not in group["members"]:
+        raise HTTPException(status_code=403, detail="You are not a member of this group")
+    
+    # Get messages
+    messages = await db.group_messages.find({"groupId": group_id}).sort("timestamp", 1).to_list(1000)
+    
+    result = []
+    for msg in messages:
+        # Get sender details
+        sender = await db.users.find_one({"_id": ObjectId(msg["senderId"])})
+        
+        # Get court name if courtId exists
+        court_name = None
+        if msg.get("courtId"):
+            court = await db.courts.find_one({"_id": ObjectId(msg["courtId"])})
+            if court:
+                court_name = court["name"]
+        
+        result.append({
+            "id": str(msg["_id"]),
+            "groupId": group_id,
+            "senderId": msg["senderId"],
+            "senderName": sender["username"] if sender else "Unknown",
+            "senderProfilePic": sender.get("profilePic") if sender else None,
+            "message": msg.get("message"),
+            "mediaUrl": msg.get("mediaUrl"),
+            "courtId": msg.get("courtId"),
+            "courtName": court_name,
+            "timestamp": msg["timestamp"]
+        })
+    
+    return result
+
+
 @api_router.post("/network/friend-request")
 async def send_friend_request(request: FriendRequest, authorization: Optional[str] = Header(None)):
     user = await get_current_user(authorization)
