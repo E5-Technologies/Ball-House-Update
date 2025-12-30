@@ -36,9 +36,15 @@ export default function Register() {
 
     setLoading(true);
     try {
+      console.log('Starting registration...');
       await register(username.trim(), email.trim(), password);
-      router.replace('/(tabs)');
+      console.log('Registration successful, navigating to tabs...');
+      // Small delay to ensure auth state is updated
+      setTimeout(() => {
+        router.replace('/(tabs)');
+      }, 100);
     } catch (error: any) {
+      console.error('Registration error:', error);
       Alert.alert('Registration Failed', error.message);
     } finally {
       setLoading(false);
