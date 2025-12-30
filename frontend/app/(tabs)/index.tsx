@@ -226,17 +226,33 @@ export default function CourtsScreen() {
   // Map view for mobile
   const renderMapView = () => (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#666" style={styles.searchIcon} />
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search"
-          placeholderTextColor="#999"
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
-        <TouchableOpacity style={styles.filterButton}>
-          <Ionicons name="options-outline" size={24} color="#000" />
+      {/* Toggle between List and Map */}
+      <View style={styles.toggleContainer}>
+        <TouchableOpacity
+          style={[styles.toggleButton, !showMap && styles.toggleButtonActive]}
+          onPress={() => setShowMap(false)}
+        >
+          <Ionicons 
+            name="list" 
+            size={20} 
+            color={!showMap ? '#FFF' : '#666'} 
+          />
+          <Text style={[styles.toggleText, !showMap && styles.toggleTextActive]}>
+            List
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.toggleButton, showMap && styles.toggleButtonActive]}
+          onPress={() => setShowMap(true)}
+        >
+          <Ionicons 
+            name="map" 
+            size={20} 
+            color={showMap ? '#FFF' : '#666'} 
+          />
+          <Text style={[styles.toggleText, showMap && styles.toggleTextActive]}>
+            Map
+          </Text>
         </TouchableOpacity>
       </View>
 
