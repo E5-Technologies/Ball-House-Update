@@ -383,11 +383,6 @@ export default function CourtsScreen() {
           </Text>
         </TouchableOpacity>
       </View>
-          <TouchableOpacity onPress={() => setSearchQuery('')}>
-            <Ionicons name="close-circle" size={20} color="#888" />
-          </TouchableOpacity>
-        )}
-      </View>
 
       <FlatList
         data={filteredCourts}
