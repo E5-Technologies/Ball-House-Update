@@ -11,7 +11,7 @@ import base64
 from datetime import datetime
 
 # Configuration
-BASE_URL = "https://hoopfinder-4.preview.emergentagent.com/api"
+BASE_URL = "https://ballmate-app.preview.emergentagent.com/api"
 TIMEOUT = 30
 
 class BackendTester:

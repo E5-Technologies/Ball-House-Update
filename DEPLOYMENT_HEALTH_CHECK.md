@@ -87,8 +87,8 @@ Status: ✅ PASSED
 
 ### Frontend Environment Variables
 ```
-✅ EXPO_PACKAGER_HOSTNAME     - https://hoopfinder-4.preview.emergentagent.com
-✅ EXPO_PUBLIC_BACKEND_URL    - https://hoopfinder-4.preview.emergentagent.com
+✅ EXPO_PACKAGER_HOSTNAME     - https://ballmate-app.preview.emergentagent.com
+✅ EXPO_PUBLIC_BACKEND_URL    - https://ballmate-app.preview.emergentagent.com
 ✅ EXPO_PUBLIC_MAPBOX_API_KEY - Set
 ✅ EXPO_PUBLIC_YOUTUBE_API_KEY - Set
 ```
