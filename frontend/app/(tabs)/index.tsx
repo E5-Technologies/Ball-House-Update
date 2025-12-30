@@ -224,40 +224,26 @@ export default function CourtsScreen() {
     );
   }
 
-  // Map view for mobile
-  const renderMapView = () => (
-    <View style={styles.container}>
-      {/* Toggle between List and Map */}
-      <View style={styles.toggleContainer}>
-        <TouchableOpacity
-          style={[styles.toggleButton, !showMap && styles.toggleButtonActive]}
-          onPress={() => setShowMap(false)}
-        >
-          <Ionicons 
-            name="list" 
-            size={20} 
-            color={!showMap ? '#FFF' : '#666'} 
-          />
-          <Text style={[styles.toggleText, !showMap && styles.toggleTextActive]}>
-            List
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.toggleButton, showMap && styles.toggleButtonActive]}
-          onPress={() => setShowMap(true)}
-        >
-          <Ionicons 
-            name="map" 
-            size={20} 
-            color={showMap ? '#FFF' : '#666'} 
-          />
-          <Text style={[styles.toggleText, showMap && styles.toggleTextActive]}>
-            Map
-          </Text>
-        </TouchableOpacity>
-      </View>
+  // Map view for mobile only
+  const renderMapView = () => {
+    // MapView doesn't work on web, show a message instead
+    if (isWeb) {
+      return (
+        <View style={styles.container}>
+          {renderToggle()}
+          <View style={styles.webMapPlaceholder}>
+            <Ionicons name="map-outline" size={64} color="#CCC" />
+            <Text style={styles.webMapText}>Map view is available in the mobile app</Text>
+            <Text style={styles.webMapSubtext}>Use the List view to browse courts</Text>
+          </View>
+        </View>
+      );
+    }
 
-      <MapView
+    return (
+      <View style={styles.container}>
+        {renderToggle()}
+        <MapView
         style={styles.map}
         initialRegion={{
           latitude: 29.7604,
