@@ -18,7 +18,9 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import axios from 'axios';
 import { Colors, BorderRadius, Spacing } from '../../constants/theme';
-import MapView, { Marker } from 'react-native-maps';
+
+// NOTE: MapView removed - requires native build (EAS Build) to work
+// react-native-maps crashes in Expo Go
 
 const { width, height } = Dimensions.get('window');
 
