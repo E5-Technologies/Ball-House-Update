@@ -437,6 +437,35 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     borderWidth: 0,
   },
+  toggleContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#F0F0F0',
+    borderRadius: 25,
+    margin: 16,
+    padding: 4,
+    gap: 4,
+  },
+  toggleButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    gap: 8,
+  },
+  toggleButtonActive: {
+    backgroundColor: Colors.primary,
+  },
+  toggleText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#666',
+  },
+  toggleTextActive: {
+    color: '#FFF',
+  },
   searchIcon: {
     marginRight: 8,
     color: '#FFFFFF',
