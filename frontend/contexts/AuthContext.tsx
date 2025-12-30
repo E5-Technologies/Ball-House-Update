@@ -69,16 +69,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const register = async (username: string, email: string, password: string) => {
     try {
+      console.log('AuthContext: Sending registration request...');
       const response = await axios.post(`${API_URL}/api/auth/register`, {
         username,
         email,
         password
       });
+      console.log('AuthContext: Registration response received:', response.data);
       const { token: newToken, user: userData } = response.data;
       setToken(newToken);
       setUser(userData);
       await AsyncStorage.setItem('token', newToken);
+      console.log('AuthContext: Token saved, user set:', userData);
     } catch (error: any) {
+      console.error('AuthContext: Registration error:', error.response?.data || error.message);
       throw new Error(error.response?.data?.detail || 'Registration failed');
     }
   };
