@@ -44,7 +44,8 @@ export default function CourtsScreen() {
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCourt, setSelectedCourt] = useState<Court | null>(null);
-  const [showMap, setShowMap] = useState(Platform.OS !== 'web'); // Show map on mobile, list on web
+  const [showMap, setShowMap] = useState(false); // Default to list view
+  const isWeb = Platform.OS === 'web';
   const [recommendedCourtId, setRecommendedCourtId] = useState<string | null>(null);
   const [predictionConfidence, setPredictionConfidence] = useState<number>(0);
   const [predictionReasoning, setPredictionReasoning] = useState<string>('');
