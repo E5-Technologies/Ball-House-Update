@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Ball-House-Update",
-    "slug": "ball-house-update",
+    "name": "BH",
+    "slug": "Ball-House-Update",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,7 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.e5-technologies.ballhouseupdate",
+      "bundleIdentifier": "com.ballhouse.app",
       "buildNumber": "1"
     },
     "android": {
@@ -33,6 +33,7 @@
       "eas": {
         "projectId": "7c88cff2-76b1-4023-b153-aafc34c3ef7d"
       }
-    }
+    },
+    "owner": "E5-Technologies"
   }
 }
